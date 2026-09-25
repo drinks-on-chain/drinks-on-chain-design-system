@@ -71,6 +71,15 @@ export {
   type KeyValueListProps,
 } from "./components/key-value-list";
 export { StatCard, type StatCardProps } from "./components/stat-card";
+export {
+  DataTable,
+  compareValues,
+  type DataTableColumn,
+  type DataTableLabels,
+  type DataTableProps,
+  type SortDirection,
+  type SortState,
+} from "./components/data-table";
 export { Timeline, type TimelineItem, type TimelineProps } from "./components/timeline";
 export {
   Countdown,
