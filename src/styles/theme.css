@@ -269,3 +269,68 @@
     color: var(--doc-fg);
   }
 }
+
+/* Grabados a tinta (familia editorial): trazo que se dibuja y deriva lenta del paisaje.
+   --i ordena el trazo, --extra aclara los sombreados, --delay retrasa todo el dibujo. */
+@layer components {
+  .doc-ink-stroke {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    opacity: calc(1 - var(--extra, 0) * 0.45);
+    animation: doc-ink-draw 2.6s var(--doc-ease-out) forwards;
+    animation-delay: calc(var(--delay, 0s) + 0.4s + var(--i, 0) * 0.16s);
+  }
+  .doc-ink-fill {
+    opacity: 0;
+    animation: doc-ink-fade 1.6s var(--doc-ease-out) forwards;
+    animation-delay: calc(var(--delay, 0s) + 0.8s + var(--i, 0) * 0.16s);
+  }
+  .doc-ink-drift {
+    transform-origin: 50% 50%;
+    animation: doc-ink-drift 48s var(--doc-ease-in-out) infinite alternate;
+  }
+  .doc-ink-float {
+    animation: doc-ink-float 9s var(--doc-ease-in-out) infinite alternate;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .doc-ink-stroke {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+    .doc-ink-fill {
+      animation: none;
+      opacity: 1;
+    }
+    .doc-ink-drift,
+    .doc-ink-float {
+      animation: none;
+    }
+  }
+}
+
+@keyframes doc-ink-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes doc-ink-fade {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes doc-ink-drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.06) translate(-1.5%, -1%);
+  }
+}
+@keyframes doc-ink-float {
+  from {
+    transform: translateY(0) rotate(0deg);
+  }
+  to {
+    transform: translateY(-6px) rotate(-1.2deg);
+  }
+}
