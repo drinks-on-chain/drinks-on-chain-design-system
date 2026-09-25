@@ -2,6 +2,12 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); el proyecto sigue [versionado semántico](https://semver.org/lang/es/).
 
+## [0.1.2] · 2026-09-25
+
+### Corregido
+
+- `DataTable`: la cabecera pegajosa solo se activa con `maxHeight`. En 0.1.1, sin alto máximo, quedaba desplazada por `--doc-sticky-offset` dentro del contenedor con scroll y tapaba las primeras filas.
+
 ## [0.1.1] · 2026-09-25
 
 ### Corregido

@@ -88,10 +88,7 @@ export interface DataTableProps<T> {
   /** Contenido cuando no hay filas (por defecto un EmptyState). */
   empty?: ReactNode;
 
-  /**
-   * Cabecera pegajosa (por defecto sí). La tabla tiene scroll horizontal propio, así que la
-   * cabecera solo se pega dentro de su contenedor: úsala con `maxHeight` en tablas largas.
-   */
+  /** Cabecera pegajosa dentro del contenedor (por defecto sí); solo actúa con `maxHeight`. */
   stickyHeader?: boolean;
   /** Alto máximo con scroll propio; la cabecera se pega dentro del contenedor. */
   maxHeight?: string;
@@ -208,14 +205,15 @@ export function DataTable<T>({
         ? "text-center"
         : "text-left";
 
+  // La tabla tiene scroll horizontal propio, así que la cabecera solo puede pegarse dentro de su
+  // contenedor: sin `maxHeight` quedaría desplazada sobre las primeras filas.
+  const sticky = stickyHeader && Boolean(maxHeight);
   const headClasses = cn(
     "border-b border-border-strong bg-bg-sunken font-ui text-2xs leading-tight font-medium tracking-label whitespace-nowrap text-fg-subtle uppercase",
-    stickyHeader && "sticky z-sticky",
+    sticky && "sticky z-sticky",
     headPadding,
   );
-  const stickyStyle: CSSProperties | undefined = stickyHeader
-    ? { top: maxHeight ? 0 : "var(--doc-sticky-offset, 0px)" }
-    : undefined;
+  const stickyStyle: CSSProperties | undefined = sticky ? { top: 0 } : undefined;
 
   return (
     <div
