@@ -52,5 +52,35 @@ export {
 export { Switch, type SwitchProps } from "./components/switch";
 export { FormSection, type FormSectionProps } from "./components/form-section";
 
+// Estado y datos
+export { Badge, badgeVariants, type BadgeProps } from "./components/badge";
+export { Tag, type TagProps } from "./components/tag";
+export { Pill, PillGroup, type PillProps, type PillGroupProps } from "./components/pill";
+export { Avatar, getInitials, type AvatarProps } from "./components/avatar";
+export {
+  Card,
+  CardHeader,
+  cardVariants,
+  type CardProps,
+  type CardHeaderProps,
+} from "./components/card";
+export { Divider, type DividerProps } from "./components/divider";
+export {
+  KeyValueList,
+  type KeyValueItem,
+  type KeyValueListProps,
+} from "./components/key-value-list";
+export { StatCard, type StatCardProps } from "./components/stat-card";
+export { Timeline, type TimelineItem, type TimelineProps } from "./components/timeline";
+export {
+  Countdown,
+  getCountdownParts,
+  type CountdownLabels,
+  type CountdownParts,
+  type CountdownProps,
+} from "./components/countdown";
+export { QRCode, getQRPath, type QRCodeProps } from "./components/qr-code";
+export { Wordmark, type WordmarkProps } from "./components/wordmark";
+
 // Feedback
 export { Spinner, type SpinnerProps } from "./components/spinner";
