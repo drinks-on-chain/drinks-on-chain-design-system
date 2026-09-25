@@ -1,0 +1,61 @@
+name: Release
+
+# Publica el paquete como tarball adjunto a una GitHub Release (sin registro npm).
+# Se dispara al empujar una etiqueta vX.Y.Z creada sobre main.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build, pack y GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Comprobar que la etiqueta coincide con package.json
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "La etiqueta $GITHUB_REF_NAME no coincide con la versión $VERSION de package.json"
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+      - name: Empaquetar
+        run: pnpm pack
+
+      - name: Notas desde CHANGELOG.md
+        run: |
+          awk -v v="$VERSION" '
+            $0 ~ "^## \[?" v "\]?" { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ]; then echo "Versión $VERSION" > release-notes.md; fi
+
+      - name: Crear la GitHub Release con el tarball
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "drinks-on-chain-ui-$VERSION.tgz" \
+            --title "@drinks-on-chain/ui $VERSION" \
+            --notes-file release-notes.md \
+            --verify-tag
