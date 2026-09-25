@@ -103,3 +103,15 @@ export { Spinner, type SpinnerProps } from "./components/spinner";
 export { Progress, type ProgressProps } from "./components/progress";
 export { EmptyState, type EmptyStateProps } from "./components/empty-state";
 export { ErrorState, type ErrorStateProps } from "./components/error-state";
+
+// Navegación
+export { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/tabs";
+export { Breadcrumbs, type BreadcrumbItem, type BreadcrumbsProps } from "./components/breadcrumbs";
+export {
+  Pagination,
+  getPageItems,
+  type PageItem,
+  type PaginationLabels,
+  type PaginationProps,
+} from "./components/pagination";
+export { Stepper, type StepperProps, type StepperStep } from "./components/stepper";
