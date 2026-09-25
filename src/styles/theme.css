@@ -1,0 +1,263 @@
+/* ==========================================================================
+   Drinks on Chain · Tokens expuestos a Tailwind CSS 4 (@drinks-on-chain/ui)
+   `@theme inline` hace que cada utilidad apunte a la variable --doc-* del
+   elemento, así que un contenedor con [data-theme="cava"] cambia de tema.
+   Se reinician las paletas por defecto de Tailwind: solo existen los tokens
+   de Drinks on Chain (y white/black para casos puntuales).
+   ========================================================================== */
+
+@theme inline {
+  /* ---------- Color: semánticos ---------- */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-bg: var(--doc-bg);
+  --color-bg-raised: var(--doc-bg-raised);
+  --color-bg-sunken: var(--doc-bg-sunken);
+  --color-bg-deep: var(--doc-bg-deep);
+  --color-fg: var(--doc-fg);
+  --color-fg-muted: var(--doc-fg-muted);
+  --color-fg-subtle: var(--doc-fg-subtle);
+  --color-border: var(--doc-border);
+  --color-border-strong: var(--doc-border-strong);
+  --color-rule: var(--doc-rule);
+  --color-accent: var(--doc-accent);
+  --color-accent-fg: var(--doc-accent-fg);
+  --color-accent-text: var(--doc-accent-text);
+  --color-accent-soft: var(--doc-accent-soft);
+  --color-success: var(--doc-success);
+  --color-success-soft: var(--doc-success-soft);
+  --color-danger: var(--doc-danger);
+  --color-danger-soft: var(--doc-danger-soft);
+  --color-warning: var(--doc-warning);
+  --color-warning-soft: var(--doc-warning-soft);
+  --color-info: var(--doc-info);
+  --color-info-soft: var(--doc-info-soft);
+  --color-on-status: var(--doc-on-status);
+  --color-focus: var(--doc-focus);
+  --color-overlay: var(--doc-overlay);
+
+  /* ---------- Color: primitivos (solo casos justificados) ---------- */
+  --color-paper-0: var(--doc-paper-0);
+  --color-paper-1: var(--doc-paper-1);
+  --color-paper-2: var(--doc-paper-2);
+  --color-paper-3: var(--doc-paper-3);
+  --color-ink-0: var(--doc-ink-0);
+  --color-ink-1: var(--doc-ink-1);
+  --color-ink-2: var(--doc-ink-2);
+  --color-ink-3: var(--doc-ink-3);
+  --color-gold-300: var(--doc-gold-300);
+  --color-gold-500: var(--doc-gold-500);
+  --color-gold-700: var(--doc-gold-700);
+  --color-cava-0: var(--doc-cava-0);
+  --color-cava-1: var(--doc-cava-1);
+  --color-cava-2: var(--doc-cava-2);
+  --color-cava-3: var(--doc-cava-3);
+  --color-cream-0: var(--doc-cream-0);
+  --color-cream-1: var(--doc-cream-1);
+  --color-cream-2: var(--doc-cream-2);
+  --color-green-300: var(--doc-green-300);
+  --color-green-600: var(--doc-green-600);
+  --color-red-300: var(--doc-red-300);
+  --color-red-600: var(--doc-red-600);
+  --color-amber-300: var(--doc-amber-300);
+  --color-amber-600: var(--doc-amber-600);
+  --color-blue-300: var(--doc-blue-300);
+  --color-blue-600: var(--doc-blue-600);
+
+  /* ---------- Tipografía ---------- */
+  --font-*: initial;
+  --font-display: var(--doc-font-display);
+  --font-text: var(--doc-font-text);
+  --font-ui: var(--doc-font-ui);
+  --font-mono: var(--doc-font-mono);
+  --default-font-family: var(--doc-font-ui);
+  --default-mono-font-family: var(--doc-font-mono);
+
+  --text-*: initial;
+  --text-2xs: var(--doc-text-2xs);
+  --text-2xs--line-height: 1.3;
+  --text-xs: var(--doc-text-xs);
+  --text-xs--line-height: 1.4;
+  --text-sm: var(--doc-text-sm);
+  --text-sm--line-height: 1.45;
+  --text-md: var(--doc-text-md);
+  --text-md--line-height: var(--doc-leading-normal);
+  --text-base: var(--doc-text-md);
+  --text-base--line-height: var(--doc-leading-normal);
+  --text-lg: var(--doc-text-lg);
+  --text-lg--line-height: var(--doc-leading-normal);
+  --text-xl: var(--doc-text-xl);
+  --text-xl--line-height: 1.35;
+  --text-2xl: var(--doc-text-2xl);
+  --text-2xl--line-height: 1.25;
+  --text-3xl: var(--doc-text-3xl);
+  --text-3xl--line-height: 1.15;
+  --text-4xl: var(--doc-text-4xl);
+  --text-4xl--line-height: 1.1;
+  --text-5xl: var(--doc-text-5xl);
+  --text-5xl--line-height: var(--doc-leading-none);
+  --text-6xl: var(--doc-text-6xl);
+  --text-6xl--line-height: var(--doc-leading-none);
+  --text-7xl: var(--doc-text-7xl);
+  --text-7xl--line-height: var(--doc-leading-none);
+
+  --leading-tight: var(--doc-leading-tight);
+  --leading-normal: var(--doc-leading-normal);
+  --leading-editorial: 1.52;
+
+  --tracking-label: 0.08em;
+  --tracking-caps: 0.12em;
+  --tracking-wordmark: 0.18em;
+  --tracking-display: var(--doc-tracking-display);
+  --tracking-eyebrow: var(--doc-tracking-ui);
+
+  /* ---------- Forma y elevación ---------- */
+  --radius-*: initial;
+  --radius-sm: var(--doc-radius-sm);
+  --radius-md: var(--doc-radius-md);
+  --radius-lg: var(--doc-radius-lg);
+
+  --shadow-*: initial;
+  --shadow-overlay: var(--doc-shadow-overlay);
+  --shadow-paper-halo: var(--doc-shadow-paper-halo);
+
+  /* ---------- Breakpoints (05 §2.3) ---------- */
+  --breakpoint-sm: 23.4375rem; /* 375 */
+  --breakpoint-md: 48rem; /* 768 */
+  --breakpoint-lg: 64rem; /* 1024 */
+  --breakpoint-xl: 80rem; /* 1280 */
+  --breakpoint-2xl: 90rem; /* 1440 */
+
+  /* ---------- Movimiento ---------- */
+  --ease-out: var(--doc-ease-out);
+  --ease-in-out: var(--doc-ease-in-out);
+  /* Transiciones ligadas al token (reduced-motion las deja en 0) */
+  --default-transition-duration: var(--doc-dur-state);
+  --default-transition-timing-function: var(--doc-ease-out);
+
+  --animate-shimmer: doc-shimmer 1.4s linear infinite;
+  --animate-fade-in: doc-fade-in var(--doc-dur-transition) var(--doc-ease-out) both;
+  --animate-fade-out: doc-fade-out var(--doc-dur-state) var(--doc-ease-in-out) both;
+  --animate-dialog-in: doc-dialog-in var(--doc-dur-transition) var(--doc-ease-out) both;
+  --animate-dialog-out: doc-dialog-out var(--doc-dur-state) var(--doc-ease-in-out) both;
+  --animate-slide-in-right: doc-slide-in-right var(--doc-dur-transition) var(--doc-ease-out) both;
+  --animate-slide-out-right: doc-slide-out-right var(--doc-dur-state) var(--doc-ease-in-out) both;
+  --animate-slide-in-left: doc-slide-in-left var(--doc-dur-transition) var(--doc-ease-out) both;
+  --animate-slide-out-left: doc-slide-out-left var(--doc-dur-state) var(--doc-ease-in-out) both;
+  --animate-slide-in-bottom: doc-slide-in-bottom var(--doc-dur-transition) var(--doc-ease-out) both;
+  --animate-slide-out-bottom: doc-slide-out-bottom var(--doc-dur-state) var(--doc-ease-in-out) both;
+  --animate-pop-in: doc-pop-in var(--doc-dur-state) var(--doc-ease-out) both;
+  --animate-pop-out: doc-pop-out var(--doc-dur-micro) var(--doc-ease-in-out) both;
+
+  @keyframes doc-shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+  @keyframes doc-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes doc-fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes doc-dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+  }
+  @keyframes doc-dialog-out {
+    to {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+  }
+  @keyframes doc-slide-in-right {
+    from {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes doc-slide-out-right {
+    to {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes doc-slide-in-left {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes doc-slide-out-left {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes doc-slide-in-bottom {
+    from {
+      transform: translateY(100%);
+    }
+  }
+  @keyframes doc-slide-out-bottom {
+    to {
+      transform: translateY(100%);
+    }
+  }
+  @keyframes doc-pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
+  @keyframes doc-pop-out {
+    to {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
+}
+
+/* Capas (05 §2.3): z-sticky, z-dropdown, z-overlay, z-modal, z-toast */
+@utility z-sticky {
+  z-index: var(--doc-z-sticky);
+}
+@utility z-dropdown {
+  z-index: var(--doc-z-dropdown);
+}
+@utility z-overlay {
+  z-index: var(--doc-z-overlay);
+}
+@utility z-modal {
+  z-index: var(--doc-z-modal);
+}
+@utility z-toast {
+  z-index: var(--doc-z-toast);
+}
+
+/* Cifras tabulares (todas las cifras operativas) */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@layer base {
+  html {
+    background-color: var(--doc-bg);
+    color: var(--doc-fg);
+    font-family: var(--doc-font-ui);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Un contenedor con tema propio hereda el color de texto de su tema */
+  [data-theme] {
+    color: var(--doc-fg);
+  }
+}

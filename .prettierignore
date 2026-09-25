@@ -1,0 +1,6 @@
+dist
+storybook-static
+coverage
+pnpm-lock.yaml
+src/fonts
+src/styles/fonts.css

@@ -1,0 +1,21 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introducción" />
+
+# @drinks-on-chain/ui
+
+Sistema de diseño de Drinks on Chain: **papel, tinta y un solo oro**. Tokens, dos temas
+(Oro Líquido y Cava Reserva), componentes base accesibles y los shells de las cuatro aplicaciones.
+
+- **Maquetas**: las cinco maquetas de `docs/design-system/` reproducidas solo con componentes del paquete.
+- **Componentes**: cada componente en ambos temas (conmutador "Tema" de la barra superior) y en los anchos 375, 768, 1024, 1280 y 1440.
+- **Shells**: AppShell (ERP), AdminShell (Backoffice), StoreShell (Marketplace), KioskShell (POS), AuthLayout y PageShell.
+
+Uso en una app:
+
+```css
+@import "tailwindcss";
+@import "@drinks-on-chain/ui/styles.css";
+```
+
+Consulta el README del repositorio para la instalación, el `linkComponent` de Next.js y la publicación.

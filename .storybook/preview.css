@@ -1,0 +1,11 @@
+/* Storybook consume las fuentes del paquete (no dist): mismas capas que styles.css. */
+@import "tailwindcss";
+@import "../src/styles/fonts.css";
+@import "../src/styles/tokens.css";
+@import "../src/styles/theme.css";
+
+@source "../src";
+
+body {
+  margin: 0;
+}
