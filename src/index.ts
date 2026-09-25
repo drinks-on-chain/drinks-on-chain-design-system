@@ -132,3 +132,11 @@ export { BottomSheet, type BottomSheetProps } from "./components/bottom-sheet";
 export { Popover, PopoverClose, type PopoverProps } from "./components/popover";
 export { Menu, type MenuEntry, type MenuProps } from "./components/menu";
 export { Tooltip, type TooltipProps } from "./components/tooltip";
+
+// Shells
+export { AppShell, type AppShellProps, type ShellLabels, type ShellUser } from "./shells/app-shell";
+export { AdminShell, type AdminShellProps, type AdminShellSearch } from "./shells/admin-shell";
+export { StoreShell, type StoreShellProps } from "./shells/store-shell";
+export { KioskShell, type KioskShellProps } from "./shells/kiosk-shell";
+export { AuthLayout, type AuthLayoutProps } from "./shells/auth-layout";
+export { PageShell, type PageShellProps } from "./shells/page-shell";
