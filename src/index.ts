@@ -115,3 +115,11 @@ export {
   type PaginationProps,
 } from "./components/pagination";
 export { Stepper, type StepperProps, type StepperStep } from "./components/stepper";
+
+// Overlays
+export { Modal, ModalClose, type ModalProps } from "./components/modal";
+export { SlideOver, type SlideOverProps } from "./components/slide-over";
+export { BottomSheet, type BottomSheetProps } from "./components/bottom-sheet";
+export { Popover, PopoverClose, type PopoverProps } from "./components/popover";
+export { Menu, type MenuEntry, type MenuProps } from "./components/menu";
+export { Tooltip, type TooltipProps } from "./components/tooltip";
