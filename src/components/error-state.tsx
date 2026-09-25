@@ -16,6 +16,8 @@ export interface ErrorStateProps extends Omit<HTMLAttributes<HTMLDivElement>, "t
   /** Detalle técnico (código de error) en monoespaciada. */
   detail?: ReactNode;
   bare?: boolean;
+  /** Nivel del título (por defecto 2, bajo el h1 de la página). */
+  headingLevel?: 2 | 3 | 4;
 }
 
 /** Estado de error con reintento: obligatorio en cada pantalla con datos (05 §4). */
@@ -27,9 +29,11 @@ export function ErrorState({
   retrying = false,
   detail,
   bare = false,
+  headingLevel = 2,
   className,
   ...props
 }: ErrorStateProps) {
+  const Heading = `h${headingLevel}` as const;
   return (
     <div
       role="alert"
@@ -41,7 +45,9 @@ export function ErrorState({
       {...props}
     >
       <TriangleAlert aria-hidden className="mb-1 size-8 stroke-[1.5] text-danger" />
-      <h4 className="m-0 font-display text-xl leading-tight font-medium text-fg">{title}</h4>
+      <Heading className="m-0 font-display text-xl leading-tight font-medium text-fg">
+        {title}
+      </Heading>
       {description ? <p className="m-0 max-w-[40ch] text-sm">{description}</p> : null}
       {detail ? <code className="font-mono text-xs text-fg-subtle">{detail}</code> : null}
       {onRetry ? (

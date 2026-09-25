@@ -28,12 +28,16 @@
   --color-accent-soft: var(--doc-accent-soft);
   --color-success: var(--doc-success);
   --color-success-soft: var(--doc-success-soft);
+  --color-success-text: var(--doc-success-text);
   --color-danger: var(--doc-danger);
   --color-danger-soft: var(--doc-danger-soft);
+  --color-danger-text: var(--doc-danger-text);
   --color-warning: var(--doc-warning);
   --color-warning-soft: var(--doc-warning-soft);
+  --color-warning-text: var(--doc-warning-text);
   --color-info: var(--doc-info);
   --color-info-soft: var(--doc-info-soft);
+  --color-info-text: var(--doc-info-text);
   --color-on-status: var(--doc-on-status);
   --color-focus: var(--doc-focus);
   --color-overlay: var(--doc-overlay);

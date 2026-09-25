@@ -2,7 +2,7 @@
 
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { X } from "lucide-react";
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { cn } from "../lib/utils";
 import { IconButton } from "./icon-button";
 
@@ -28,6 +28,26 @@ export interface DialogBaseProps {
   className?: string;
   bodyClassName?: string;
   children?: ReactNode;
+}
+
+/**
+ * Devuelve el foco al elemento que lo tenía al abrir. Radix solo lo devuelve a su Trigger; en un
+ * diálogo controlado (`open`) sin `trigger`, el foco acababa en <body>.
+ */
+export function useReturnFocus(hasTrigger: boolean) {
+  const previous = useRef<HTMLElement | null>(null);
+  return {
+    onOpenAutoFocus: () => {
+      previous.current =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    },
+    onCloseAutoFocus: (event: Event) => {
+      const el = previous.current;
+      if (hasTrigger || !el?.isConnected) return;
+      event.preventDefault();
+      el.focus();
+    },
+  };
 }
 
 export function preventWhen(condition: boolean) {

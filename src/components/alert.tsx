@@ -24,10 +24,10 @@ const toneClasses: Record<AlertTone, string> = {
 
 const iconClasses: Record<AlertTone, string> = {
   neutral: "text-fg-muted",
-  info: "text-info",
-  success: "text-success",
-  warning: "text-warning",
-  danger: "text-danger",
+  info: "text-info-text",
+  success: "text-success-text",
+  warning: "text-warning-text",
+  danger: "text-danger-text",
 };
 
 const defaultIcons: Record<AlertTone, ReactNode> = {

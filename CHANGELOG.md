@@ -2,6 +2,22 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); el proyecto sigue [versionado semántico](https://semver.org/lang/es/).
 
+## [Sin publicar]
+
+### Añadido
+
+- Tokens de texto de estado `--doc-success-text`, `--doc-danger-text`, `--doc-warning-text` e `--doc-info-text` (utilidades `text-success-text`…), con contraste AA sobre su fondo `-soft` y sobre el papel en los dos temas.
+- `EmptyState` y `ErrorState`: prop `headingLevel` (2 por defecto; antes siempre h4, que saltaba niveles).
+
+### Cambiado
+
+- Badges suaves, `Alert`, `Countdown`, `StatCard`, errores de `Field` y opciones destructivas de `Menu` usan los tokens de texto de estado (antes el color base: 3,1–4,4:1 sobre sus fondos).
+- `--doc-accent-text` del tema Oro pasa de `#8a651a` a `#7a5915` (5,4:1 sobre `accent-soft`).
+
+### Corregido
+
+- `Modal`, `SlideOver` y `BottomSheet` controlados sin `trigger` devuelven el foco al elemento que lo tenía al abrirse (antes quedaba en `<body>`).
+
 ## [0.1.2] · 2026-09-25
 
 ### Corregido

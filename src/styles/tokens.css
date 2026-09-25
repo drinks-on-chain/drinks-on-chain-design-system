@@ -133,7 +133,8 @@
   --doc-rule: rgba(0, 0, 0, 0.32);
   --doc-accent: var(--doc-gold-500);
   --doc-accent-fg: var(--doc-paper-0);
-  --doc-accent-text: var(--doc-gold-700);
+  /* Oro para texto pequeño: AA (≥ 4,5:1) sobre papel y sobre accent-soft. */
+  --doc-accent-text: #7a5915;
   --doc-accent-soft: rgba(184, 137, 31, 0.14);
   --doc-success: var(--doc-green-600);
   --doc-success-soft: rgba(63, 125, 74, 0.14);
@@ -143,6 +144,11 @@
   --doc-warning-soft: rgba(176, 122, 26, 0.14);
   --doc-info: var(--doc-blue-600);
   --doc-info-soft: rgba(59, 95, 138, 0.12);
+  /* Texto de estado: AA sobre su fondo -soft y sobre papel (badges, alertas, cifras pequeñas). */
+  --doc-success-text: #336b3d;
+  --doc-danger-text: #a03826;
+  --doc-warning-text: #7d560f;
+  --doc-info-text: var(--doc-blue-600);
   --doc-focus: var(--doc-gold-500);
   --doc-overlay: rgba(21, 18, 15, 0.55);
   --doc-on-status: var(--doc-paper-0);
@@ -179,6 +185,10 @@
   --doc-warning-soft: rgba(217, 164, 65, 0.16);
   --doc-info: var(--doc-blue-300);
   --doc-info-soft: rgba(143, 176, 217, 0.16);
+  --doc-success-text: var(--doc-green-300);
+  --doc-danger-text: #eb8a76;
+  --doc-warning-text: var(--doc-amber-300);
+  --doc-info-text: var(--doc-blue-300);
   --doc-focus: var(--doc-gold-300);
   --doc-overlay: rgba(0, 0, 0, 0.65);
   --doc-on-status: var(--doc-cava-0);

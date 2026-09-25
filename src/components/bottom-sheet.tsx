@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogOverlay,
   preventWhen,
+  useReturnFocus,
   type DialogBaseProps,
 } from "./dialog-parts";
 
@@ -39,6 +40,7 @@ export function BottomSheet({
   bodyClassName,
   children,
 }: BottomSheetProps) {
+  const returnFocus = useReturnFocus(Boolean(trigger));
   return (
     <DialogPrimitive.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       {trigger ? <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger> : null}
@@ -49,6 +51,7 @@ export function BottomSheet({
           onEscapeKeyDown={preventWhen(!dismissible)}
           onPointerDownOutside={preventWhen(!dismissible)}
           onInteractOutside={preventWhen(!dismissible)}
+          {...returnFocus}
           className={cn(
             "fixed inset-x-0 bottom-0 z-modal mx-auto flex w-full max-w-[560px] flex-col rounded-t-lg bg-bg pb-[env(safe-area-inset-bottom)] text-fg shadow-overlay outline-none",
             "before:absolute before:top-2 before:left-1/2 before:h-1 before:w-10 before:-translate-x-1/2 before:rounded-sm before:bg-border-strong before:content-['']",
