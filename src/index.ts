@@ -91,6 +91,15 @@ export {
 export { QRCode, getQRPath, type QRCodeProps } from "./components/qr-code";
 export { Wordmark, type WordmarkProps } from "./components/wordmark";
 
+// Editoriales (marca y grabados)
+export { BrandSeal, type BrandSealProps } from "./components/brand-seal";
+export {
+  GlassBottleOrnament,
+  VineOrnament,
+  type InkOrnamentProps,
+} from "./components/ink-ornaments";
+export { VineyardScene, type VineyardSceneProps } from "./components/vineyard-scene";
+
 // Feedback
 export { Alert, type AlertProps } from "./components/alert";
 export {

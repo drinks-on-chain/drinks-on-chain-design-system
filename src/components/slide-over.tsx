@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogOverlay,
   preventWhen,
+  useReturnFocus,
   type DialogBaseProps,
 } from "./dialog-parts";
 
@@ -43,6 +44,7 @@ export function SlideOver({
   bodyClassName,
   children,
 }: SlideOverProps) {
+  const returnFocus = useReturnFocus(Boolean(trigger));
   return (
     <DialogPrimitive.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       {trigger ? <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger> : null}
@@ -53,6 +55,7 @@ export function SlideOver({
           onEscapeKeyDown={preventWhen(!dismissible)}
           onPointerDownOutside={preventWhen(!dismissible)}
           onInteractOutside={preventWhen(!dismissible)}
+          {...returnFocus}
           className={cn(
             "fixed inset-y-0 z-modal flex w-full flex-col bg-bg text-fg shadow-overlay outline-none",
             side === "right"

@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogOverlay,
   preventWhen,
+  useReturnFocus,
   type DialogBaseProps,
 } from "./dialog-parts";
 
@@ -46,6 +47,7 @@ export function Modal({
   bodyClassName,
   children,
 }: ModalProps) {
+  const returnFocus = useReturnFocus(Boolean(trigger));
   return (
     <DialogPrimitive.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       {trigger ? <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger> : null}
@@ -56,6 +58,7 @@ export function Modal({
           onEscapeKeyDown={preventWhen(!dismissible)}
           onPointerDownOutside={preventWhen(!dismissible)}
           onInteractOutside={preventWhen(!dismissible)}
+          {...returnFocus}
           className={cn(
             "fixed top-1/2 left-1/2 z-modal flex max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col",
             "overflow-hidden rounded-lg bg-bg text-fg shadow-overlay outline-none",

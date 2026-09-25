@@ -2,6 +2,27 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); el proyecto sigue [versionado semántico](https://semver.org/lang/es/).
 
+## [0.2.0] · 2026-09-25
+
+### Añadido
+
+- `BrandSeal`: la chapa de las landings (versalitas, nombre entre hilos de oro y línea en cursiva) con `eyebrow` y `tagline` configurables, para las pantallas de acceso.
+- `VineOrnament`, `GlassBottleOrnament` y `VineyardScene`: grabados a tinta que se dibujan solos (mapa de parcelas, curvas de nivel, río, vid, botella y copa) para el panel de imagen del `AuthLayout`. Respetan `prefers-reduced-motion`.
+
+- Tokens de texto de estado `--doc-success-text`, `--doc-danger-text`, `--doc-warning-text` e `--doc-info-text` (utilidades `text-success-text`…), con contraste AA sobre su fondo `-soft` y sobre el papel en los dos temas.
+- `EmptyState` y `ErrorState`: prop `headingLevel` (2 por defecto; antes siempre h4, que saltaba niveles).
+
+### Cambiado
+
+- **Oro tostado** en el tema Oro Líquido (decisión del 25-09-2026): `--doc-accent` pasa de `gold-500` (`#b8891f`) a `gold-700` (`#8a651a`); el texto claro sobre el botón principal y los badges fuertes cumple AA (5,2:1). El tema Cava Reserva no cambia.
+- Badge fuerte de aviso sobre `warning-text` (antes 3,6:1).
+- Badges suaves, `Alert`, `Countdown`, `StatCard`, errores de `Field` y opciones destructivas de `Menu` usan los tokens de texto de estado (antes el color base: 3,1–4,4:1 sobre sus fondos).
+- `--doc-accent-text` del tema Oro pasa de `#8a651a` a `#7a5915` (5,4:1 sobre `accent-soft`).
+
+### Corregido
+
+- `Modal`, `SlideOver` y `BottomSheet` controlados sin `trigger` devuelven el foco al elemento que lo tenía al abrirse (antes quedaba en `<body>`).
+
 ## [0.1.2] · 2026-09-25
 
 ### Corregido

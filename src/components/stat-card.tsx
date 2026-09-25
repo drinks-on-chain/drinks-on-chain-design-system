@@ -18,9 +18,9 @@ export interface StatCardProps extends HTMLAttributes<HTMLDivElement> {
 
 const toneClasses = {
   neutral: "text-fg",
-  warning: "text-warning",
-  danger: "text-danger",
-  success: "text-success",
+  warning: "text-warning-text",
+  danger: "text-danger-text",
+  success: "text-success-text",
 };
 
 /** Tarjeta de KPI: etiqueta, cifra display de 36 px y variación. */
@@ -56,8 +56,8 @@ export function StatCard({
         <span
           className={cn(
             "text-xs",
-            trend === "up" && "text-success",
-            trend === "down" && "text-danger",
+            trend === "up" && "text-success-text",
+            trend === "down" && "text-danger-text",
             trend === "neutral" && "text-fg-subtle",
           )}
         >

@@ -5,6 +5,7 @@ import {
   Alert,
   AppShell,
   AuthLayout,
+  BrandSeal,
   Badge,
   Button,
   Card,
@@ -18,6 +19,7 @@ import {
   StatCard,
   Timeline,
   type DataTableColumn,
+  VineyardScene,
 } from "../../index";
 import { erpNavigation } from "../navigation";
 
@@ -245,7 +247,8 @@ export const Login: Story = {
   render: () => (
     <AuthLayout
       variant="split"
-      eyebrow="ERP de trazabilidad"
+      brand={<BrandSeal tagline="ERP de trazabilidad" />}
+      image={<VineyardScene />}
       imageCaption={
         <>
           <p className="m-0 mb-1.5 font-display text-sm tracking-eyebrow text-fg-muted uppercase">
