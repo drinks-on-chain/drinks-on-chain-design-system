@@ -23,5 +23,34 @@ export { Button, buttonVariants, type ButtonProps } from "./components/button";
 export { IconButton, iconButtonVariants, type IconButtonProps } from "./components/icon-button";
 export { TextLink, type TextLinkProps } from "./components/text-link";
 
+// Formularios
+export { Field, useFieldContext, useFieldControl, type FieldProps } from "./components/field";
+export {
+  Input,
+  Textarea,
+  inputVariants,
+  type InputProps,
+  type TextareaProps,
+} from "./components/input";
+export {
+  Select,
+  SelectGroup,
+  SelectItem,
+  SelectSeparator,
+  type SelectOption,
+  type SelectProps,
+  type SelectItemProps,
+} from "./components/select";
+export { Checkbox, type CheckboxProps } from "./components/checkbox";
+export {
+  RadioGroup,
+  RadioGroupItem,
+  type RadioGroupProps,
+  type RadioGroupItemProps,
+  type RadioOption,
+} from "./components/radio-group";
+export { Switch, type SwitchProps } from "./components/switch";
+export { FormSection, type FormSectionProps } from "./components/form-section";
+
 // Feedback
 export { Spinner, type SpinnerProps } from "./components/spinner";
