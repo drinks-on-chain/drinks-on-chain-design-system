@@ -39,7 +39,7 @@ export function Tooltip({
             align={align}
             sideOffset={6}
             className={cn(
-              "z-dropdown max-w-64 rounded-sm bg-fg px-2 py-1 font-ui text-xs text-bg shadow-overlay",
+              "z-popover max-w-64 rounded-sm bg-fg px-2 py-1 font-ui text-xs text-bg shadow-overlay",
               "data-[state=closed]:animate-pop-out data-[state=delayed-open]:animate-pop-in data-[state=instant-open]:animate-pop-in motion-reduce:animate-none",
               className,
             )}

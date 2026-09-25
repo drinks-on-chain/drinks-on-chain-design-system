@@ -84,7 +84,7 @@ export function Select({
           position="popper"
           sideOffset={4}
           className={cn(
-            "z-dropdown max-h-(--radix-select-content-available-height) min-w-(--radix-select-trigger-width) overflow-hidden",
+            "z-popover max-h-(--radix-select-content-available-height) min-w-(--radix-select-trigger-width) overflow-hidden",
             "rounded-md border border-border bg-bg font-ui text-fg shadow-overlay",
             "data-[state=closed]:animate-pop-out data-[state=open]:animate-pop-in motion-reduce:animate-none",
             contentClassName,

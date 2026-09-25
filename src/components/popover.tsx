@@ -35,7 +35,7 @@ export function Popover({
           align={align}
           sideOffset={6}
           className={cn(
-            "z-dropdown w-72 max-w-[calc(100vw-2rem)] rounded-md border border-border bg-bg p-4 font-ui text-sm text-fg shadow-overlay outline-none",
+            "z-popover w-72 max-w-[calc(100vw-2rem)] rounded-md border border-border bg-bg p-4 font-ui text-sm text-fg shadow-overlay outline-none",
             "data-[state=closed]:animate-pop-out data-[state=open]:animate-pop-in motion-reduce:animate-none",
             className,
           )}

@@ -2,6 +2,13 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); el proyecto sigue [versionado semántico](https://semver.org/lang/es/).
 
+## [0.1.1] · 2026-09-25
+
+### Corregido
+
+- `DataTable`: el contenedor siempre tiene scroll horizontal propio; antes, desde `lg`, una tabla ancha desbordaba la página. La cabecera pegajosa se pega dentro del contenedor (usa `maxHeight` en tablas largas).
+- `Select`, `Menu`, `Popover` y `Tooltip` usan la nueva capa `z-popover` (`--doc-z-popover: 45`), por encima de los modales: un `Select` dentro de un `Modal` o `SlideOver` ya se puede abrir con el ratón.
+
 ## [0.1.0] · 2026-09-25
 
 Primera versión (Etapa 0.1 del roadmap del frontend).

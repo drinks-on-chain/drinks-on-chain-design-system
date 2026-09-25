@@ -59,7 +59,7 @@ export function Menu({
           side={side}
           sideOffset={4}
           className={cn(
-            "z-dropdown min-w-48 rounded-md border border-border bg-bg p-1 font-ui text-fg shadow-overlay outline-none",
+            "z-popover min-w-48 rounded-md border border-border bg-bg p-1 font-ui text-fg shadow-overlay outline-none",
             "data-[state=closed]:animate-pop-out data-[state=open]:animate-pop-in motion-reduce:animate-none",
             className,
           )}
