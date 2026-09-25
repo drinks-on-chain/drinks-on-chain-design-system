@@ -17,3 +17,11 @@ export {
 
 // Tema
 export { ThemeProvider, useTheme, type ThemeProviderProps } from "./theme/theme-provider";
+
+// Acciones
+export { Button, buttonVariants, type ButtonProps } from "./components/button";
+export { IconButton, iconButtonVariants, type IconButtonProps } from "./components/icon-button";
+export { TextLink, type TextLinkProps } from "./components/text-link";
+
+// Feedback
+export { Spinner, type SpinnerProps } from "./components/spinner";
