@@ -66,7 +66,11 @@ export interface CountdownProps extends Omit<HTMLAttributes<HTMLDivElement>, "ch
   labels?: CountdownLabels;
 }
 
-const toneClasses = { neutral: "text-fg", warning: "text-warning", accent: "text-accent-text" };
+const toneClasses = {
+  neutral: "text-fg",
+  warning: "text-warning-text",
+  accent: "text-accent-text",
+};
 
 /** Cuenta regresiva en días y horas hasta una fecha (candados de reposo, caducidad del pase). */
 export function Countdown({

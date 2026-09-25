@@ -10,6 +10,8 @@ export interface EmptyStateProps extends Omit<HTMLAttributes<HTMLDivElement>, "t
   action?: ReactNode;
   /** Sin borde discontinuo (dentro de tablas o tarjetas). */
   bare?: boolean;
+  /** Nivel del título (por defecto 2, bajo el h1 de la página). */
+  headingLevel?: 2 | 3 | 4;
 }
 
 /** Estado vacío con acción: obligatorio en cada listado (05 §4). */
@@ -19,9 +21,11 @@ export function EmptyState({
   icon,
   action,
   bare = false,
+  headingLevel = 2,
   className,
   ...props
 }: EmptyStateProps) {
+  const Heading = `h${headingLevel}` as const;
   return (
     <div
       className={cn(
@@ -34,7 +38,9 @@ export function EmptyState({
       {icon ? (
         <span className="mb-1 text-fg-subtle [&_svg]:size-8 [&_svg]:stroke-[1.5]">{icon}</span>
       ) : null}
-      <h4 className="m-0 font-display text-xl leading-tight font-medium text-fg">{title}</h4>
+      <Heading className="m-0 font-display text-xl leading-tight font-medium text-fg">
+        {title}
+      </Heading>
       {description ? <p className="m-0 max-w-[36ch] text-sm">{description}</p> : null}
       {action ? <div className="mt-2 flex flex-wrap justify-center gap-2">{action}</div> : null}
     </div>

@@ -88,7 +88,10 @@ export function Menu({
                 ) : null}
               </>
             );
-            const classes = cn(itemClasses, entry.destructive && "text-danger [&_svg]:text-danger");
+            const classes = cn(
+              itemClasses,
+              entry.destructive && "text-danger-text [&_svg]:text-danger-text",
+            );
             return entry.href ? (
               <MenuPrimitive.Item
                 key={key}
