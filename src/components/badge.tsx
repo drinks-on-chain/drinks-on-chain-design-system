@@ -32,7 +32,7 @@ export const badgeVariants = cva(
       { variant: "strong", tone: "accent", className: "bg-accent text-accent-fg" },
       { variant: "strong", tone: "success", className: "bg-success text-on-status" },
       { variant: "strong", tone: "danger", className: "bg-danger text-on-status" },
-      { variant: "strong", tone: "warning", className: "bg-warning text-on-status" },
+      { variant: "strong", tone: "warning", className: "bg-warning-text text-on-status" },
       { variant: "strong", tone: "info", className: "bg-info text-on-status" },
     ],
     defaultVariants: { tone: "neutral", variant: "soft", size: "md" },

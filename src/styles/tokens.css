@@ -131,7 +131,8 @@
   --doc-border: rgba(0, 0, 0, 0.11);
   --doc-border-strong: var(--doc-ink-3);
   --doc-rule: rgba(0, 0, 0, 0.32);
-  --doc-accent: var(--doc-gold-500);
+  /* Oro tostado (decisión del 25-09-2026): el texto claro sobre él cumple AA (5,2:1). */
+  --doc-accent: var(--doc-gold-700);
   --doc-accent-fg: var(--doc-paper-0);
   /* Oro para texto pequeño: AA (≥ 4,5:1) sobre papel y sobre accent-soft. */
   --doc-accent-text: #7a5915;
