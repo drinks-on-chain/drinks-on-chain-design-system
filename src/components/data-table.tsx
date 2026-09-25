@@ -88,7 +88,10 @@ export interface DataTableProps<T> {
   /** Contenido cuando no hay filas (por defecto un EmptyState). */
   empty?: ReactNode;
 
-  /** Cabecera pegajosa (por defecto sí). */
+  /**
+   * Cabecera pegajosa (por defecto sí). La tabla tiene scroll horizontal propio, así que la
+   * cabecera solo se pega dentro de su contenedor: úsala con `maxHeight` en tablas largas.
+   */
   stickyHeader?: boolean;
   /** Alto máximo con scroll propio; la cabecera se pega dentro del contenedor. */
   maxHeight?: string;
@@ -218,7 +221,8 @@ export function DataTable<T>({
     <div
       className={cn(
         "w-full font-ui text-sm text-fg",
-        maxHeight ? "overflow-auto" : "overflow-x-auto lg:overflow-x-visible",
+        // Siempre con scroll horizontal propio: una tabla ancha nunca desborda la página.
+        maxHeight ? "overflow-auto" : "overflow-x-auto",
         !bleed && "rounded-md border border-border",
         className,
       )}
