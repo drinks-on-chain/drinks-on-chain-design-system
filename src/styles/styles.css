@@ -1,0 +1,13 @@
+/* ==========================================================================
+   @drinks-on-chain/ui · punto de entrada de estilos
+   Uso en la app (globals.css), en este orden:
+     @import "tailwindcss";
+     @import "@drinks-on-chain/ui/styles.css";
+   ========================================================================== */
+
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./theme.css";
+
+/* Que el Tailwind de la app genere las clases que usan los componentes compilados */
+@source "../**/*.js";
