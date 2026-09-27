@@ -1,5 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { RoleMatrix, type RoleMatrixCapability } from "./role-matrix";
 
 const capabilities: RoleMatrixCapability[] = [
@@ -57,5 +58,34 @@ describe("RoleMatrix", () => {
     render(<RoleMatrix capabilities={capabilities} />);
     expect(screen.getByRole("columnheader", { name: "OPERATIONS" })).toBeInTheDocument();
     expect(screen.getByLabelText("Leyenda de niveles")).toHaveTextContent("Solo lo propio");
+  });
+
+  describe("contenedor desplazable", () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    function mockWidths(scrollWidth: number, clientWidth: number) {
+      vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(scrollWidth);
+      vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(clientWidth);
+    }
+
+    it("si desborda, es una región enfocable con el nombre de la tabla (scrollable-region-focusable)", async () => {
+      mockWidths(900, 400);
+      render(
+        <RoleMatrix capabilities={capabilities} roles={roles} caption="Permisos del equipo" />,
+      );
+      const region = await screen.findByRole("region", { name: "Permisos del equipo" });
+      expect(region).toHaveAttribute("tabindex", "0");
+      expect(region).toContainElement(screen.getByRole("table"));
+      expect(region.className).toContain("focus-visible:outline-2");
+      await userEvent.tab();
+      expect(region).toHaveFocus();
+    });
+
+    it("si cabe, no añade una parada de tabulación", () => {
+      mockWidths(400, 400);
+      render(<RoleMatrix capabilities={capabilities} roles={roles} />);
+      expect(screen.queryByRole("region")).not.toBeInTheDocument();
+      expect(screen.getByRole("table").parentElement).not.toHaveAttribute("tabindex");
+    });
   });
 });

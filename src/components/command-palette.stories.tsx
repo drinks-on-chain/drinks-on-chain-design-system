@@ -14,6 +14,7 @@ import { fn } from "storybook/test";
 import { formatHotkey } from "../lib/use-hotkey";
 import { Button } from "./button";
 import { CommandPalette, type CommandPaletteGroup } from "./command-palette";
+import { ConfirmDialog } from "./confirm-dialog";
 
 const groups: CommandPaletteGroup[] = [
   {
@@ -97,3 +98,51 @@ export const Cargando: Story = {
 };
 
 export const Cava: Story = { args: { defaultOpen: true }, globals: { theme: "cava" } };
+
+/**
+ * La acción elegida abre otro diálogo: la paleta no le roba el foco al cerrarse y, al cerrar el
+ * diálogo nuevo, el foco vuelve al botón que abrió la paleta.
+ */
+function ChainedDialog(args: Story["args"]) {
+  const [open, setOpen] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const chained: CommandPaletteGroup[] = [
+    {
+      heading: "Acciones",
+      items: [
+        {
+          id: "suspend",
+          label: "Suspender Bodega Altos de Calamuchita",
+          icon: <Building2 />,
+          onSelect: () => setConfirm(true),
+        },
+      ],
+    },
+    ...groups,
+  ];
+  return (
+    <div className="grid justify-items-start gap-2 text-sm text-fg-muted">
+      <Button variant="secondary" onClick={() => setOpen(true)}>
+        Abrir buscador
+      </Button>
+      <CommandPalette
+        {...args}
+        hotkey={false}
+        groups={chained}
+        open={open}
+        onOpenChange={setOpen}
+      />
+      <ConfirmDialog
+        open={confirm}
+        onOpenChange={setConfirm}
+        destructive
+        title="¿Suspender la bodega?"
+        description="El equipo de la bodega deja de poder operar hasta que se reactive."
+        confirmLabel="Suspender"
+        onConfirm={fn()}
+      />
+    </div>
+  );
+}
+
+export const AccionAbreDialogo: Story = { render: (args) => <ChainedDialog {...args} /> };

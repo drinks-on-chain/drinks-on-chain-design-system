@@ -1,8 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { Button } from "./button";
 import { ConfirmDialog } from "./confirm-dialog";
+import { Modal } from "./modal";
 
 describe("ConfirmDialog", () => {
   it("es un alertdialog con título y descripción; el foco empieza en Cancelar", async () => {
@@ -96,5 +98,41 @@ describe("ConfirmDialog", () => {
     await waitFor(() => expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument());
     expect(onConfirm).not.toHaveBeenCalled();
     expect(onOpenChange).toHaveBeenLastCalledWith(false);
+  });
+});
+
+describe("ConfirmDialog encadenado con otro diálogo", () => {
+  function ConfirmThenModal() {
+    const [result, setResult] = useState(false);
+    return (
+      <>
+        <ConfirmDialog
+          trigger={<Button>Aprobar</Button>}
+          title="¿Aprobar la solicitud?"
+          onConfirm={() => setResult(true)}
+        />
+        <Modal open={result} onOpenChange={setResult} title="Solicitud aprobada">
+          <p>Se envió la invitación.</p>
+        </Modal>
+      </>
+    );
+  }
+
+  it("no devuelve el foco al disparador si la acción abrió otro diálogo; lo hace al cerrarlo", async () => {
+    render(<ConfirmThenModal />);
+    const trigger = screen.getByRole("button", { name: "Aprobar" });
+    await userEvent.click(trigger);
+    await screen.findByRole("alertdialog");
+    const focusTrigger = vi.spyOn(trigger, "focus");
+    await userEvent.click(screen.getByRole("button", { name: "Confirmar" }));
+    const modal = await screen.findByRole("dialog", { name: "Solicitud aprobada" });
+    await waitFor(() => expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument());
+    await act(() => new Promise((done) => setTimeout(done, 20)));
+    expect(focusTrigger).not.toHaveBeenCalled();
+    focusTrigger.mockRestore();
+    expect(modal).toContainElement(document.activeElement as HTMLElement);
+    await userEvent.click(screen.getByRole("button", { name: "Cerrar" }));
+    await waitFor(() => expect(modal).not.toBeInTheDocument());
+    await waitFor(() => expect(trigger).toHaveFocus());
   });
 });

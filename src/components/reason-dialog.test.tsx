@@ -1,6 +1,9 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
+import { Button } from "./button";
+import { Modal } from "./modal";
 import { ReasonDialog, validateReason } from "./reason-dialog";
 
 describe("validateReason", () => {
@@ -67,5 +70,44 @@ describe("ReasonDialog", () => {
     expect(screen.getByRole("textbox", { name: "Motivo" })).toHaveAccessibleDescription(
       /El motivo es obligatorio/,
     );
+  });
+});
+
+describe("ReasonDialog encadenado con otro diálogo", () => {
+  function ReasonThenModal() {
+    const [reasonOpen, setReasonOpen] = useState(false);
+    const [result, setResult] = useState(false);
+    return (
+      <>
+        <Button onClick={() => setReasonOpen(true)}>Suspender</Button>
+        <ReasonDialog
+          open={reasonOpen}
+          onOpenChange={setReasonOpen}
+          title="Suspender la bodega"
+          onConfirm={() => setResult(true)}
+        />
+        <Modal open={result} onOpenChange={setResult} title="Bodega suspendida">
+          <p>Se avisó al equipo.</p>
+        </Modal>
+      </>
+    );
+  }
+
+  it("no devuelve el foco al disparador si la acción abrió otro diálogo; lo hace al cerrarlo", async () => {
+    render(<ReasonThenModal />);
+    const opener = screen.getByRole("button", { name: "Suspender" });
+    await userEvent.click(opener);
+    await userEvent.type(await screen.findByRole("textbox", { name: "Motivo" }), "Uso indebido");
+    const focusOpener = vi.spyOn(opener, "focus");
+    await userEvent.click(screen.getByRole("button", { name: "Confirmar" }));
+    const modal = await screen.findByRole("dialog", { name: "Bodega suspendida" });
+    await waitFor(() => expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument());
+    await act(() => new Promise((done) => setTimeout(done, 20)));
+    expect(focusOpener).not.toHaveBeenCalled();
+    focusOpener.mockRestore();
+    expect(modal).toContainElement(document.activeElement as HTMLElement);
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(modal).not.toBeInTheDocument());
+    await waitFor(() => expect(opener).toHaveFocus());
   });
 });

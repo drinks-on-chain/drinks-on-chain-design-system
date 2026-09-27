@@ -1,5 +1,8 @@
+"use client";
+
 import { Check, Eye, UserRound } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from "react";
+import { focusRing } from "../lib/styles";
 import { cn } from "../lib/utils";
 
 /** Nivel de acceso de un rol a una capacidad (`GET /v1/platform/permissions`). */
@@ -76,6 +79,9 @@ export function RoleMatrix({
   className,
 }: RoleMatrixProps) {
   const levels = { ...defaultLevels, ...labels?.levels };
+  const captionId = `role-matrix-${useId()}`;
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const overflows = useHorizontalOverflow(scrollerRef);
   const roles: RoleMatrixRole[] =
     rolesProp ?? Object.keys(capabilities[0]?.roles ?? {}).map((key) => ({ key, label: key }));
   const cellPadding = density === "compact" ? "px-3 py-[7px]" : "px-3 py-3";
@@ -84,9 +90,18 @@ export function RoleMatrix({
 
   return (
     <div className={cn("grid gap-3 font-ui text-sm text-fg", className)}>
-      <div className="overflow-x-auto rounded-md border border-border">
+      {/* Si la tabla desborda, el contenedor desplazable entra en el orden de tabulación para
+          poder recorrerlo con las flechas (axe scrollable-region-focusable). */}
+      <div
+        ref={scrollerRef}
+        {...(overflows ? { tabIndex: 0, role: "region", "aria-labelledby": captionId } : {})}
+        className={cn("overflow-x-auto rounded-md border border-border", focusRing)}
+      >
         <table className="w-full border-separate border-spacing-0 [&>tbody>tr:last-child>*]:border-b-0">
-          <caption className={captionHidden ? "sr-only" : "px-3 py-2 text-left font-medium"}>
+          <caption
+            id={captionId}
+            className={captionHidden ? "sr-only" : "px-3 py-2 text-left font-medium"}
+          >
             {caption}
           </caption>
           <thead>
@@ -168,4 +183,21 @@ export function RoleMatrix({
       ) : null}
     </div>
   );
+}
+
+/** Indica si el contenido del elemento es más ancho que su caja (se desplaza en horizontal). */
+function useHorizontalOverflow(ref: RefObject<HTMLElement | null>) {
+  const [overflows, setOverflows] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => setOverflows(el.scrollWidth > el.clientWidth + 1);
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    if (el.firstElementChild) observer.observe(el.firstElementChild);
+    return () => observer.disconnect();
+  }, [ref]);
+  return overflows;
 }

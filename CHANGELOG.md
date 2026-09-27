@@ -27,6 +27,14 @@ Componentes del Backoffice para la Ola 1 (O1-PK-1): alta de bodegas, equipos, co
 - `AdminShell`: el contenido usa Inter 14 px (`text-sm`, densidad del Backoffice, 05 §5); el atajo mostrado es "⌘K" en macOS y "Ctrl K" en el resto (antes siempre "⌘K"); `search.onOpen` pasa a ser opcional cuando se usa `commandPalette`.
 - `DataTable`: el contenido de cada cabecera va dentro de un `<span>` en línea (para alinear el botón de filtro); sin `bulkActions` ni `pagination` el DOM exterior no cambia.
 
+### Corregido (0.3.0-rc.2)
+
+Accesibilidad detectada al construir el Backoffice.
+
+- `RoleMatrix`: cuando la tabla desborda en horizontal, el contenedor desplazable es una región enfocable (`tabIndex=0`, nombre de la tabla, foco visible) que se recorre con las flechas (axe `scrollable-region-focusable`). Si cabe, no añade parada de tabulación. El componente pasa a ser de cliente.
+- `CommandPalette`: al cerrarse ya no devuelve el foco a su disparador si la acción elegida abrió otro diálogo (el nuevo diálogo perdía el foco). El diálogo nuevo hereda el destino y, al cerrarse, devuelve el foco al disparador de la paleta.
+- `ConfirmDialog` y `ReasonDialog`: la misma corrección cuando `onConfirm` abre otro diálogo; también `Modal`, `SlideOver` y `BottomSheet`, que comparten la devolución de foco. `Combobox` no tenía el problema (su panel nunca devuelve el foco); hay prueba que lo cubre.
+
 ## [0.2.0] · 2026-09-25
 
 ### Añadido
