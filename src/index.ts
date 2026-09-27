@@ -210,6 +210,11 @@ export {
   type PaginationProps,
 } from "./components/pagination";
 export { Stepper, type StepperProps, type StepperStep } from "./components/stepper";
+export {
+  OrganizationSwitcher,
+  type OrganizationOption,
+  type OrganizationSwitcherProps,
+} from "./components/organization-switcher";
 
 // Overlays
 export { Modal, ModalClose, type ModalProps } from "./components/modal";
