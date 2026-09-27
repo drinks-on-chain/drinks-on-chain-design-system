@@ -6,6 +6,14 @@
 // Utilidades y tipos
 export { cn } from "./lib/utils";
 export { focusRing } from "./lib/styles";
+export {
+  formatHotkey,
+  isApplePlatform,
+  isTypingTarget,
+  matchesHotkey,
+  useHotkey,
+  type UseHotkeyOptions,
+} from "./lib/use-hotkey";
 export type { Tone, ThemeName } from "./lib/types";
 export {
   isNavItemActive,
