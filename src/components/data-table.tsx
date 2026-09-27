@@ -1,11 +1,16 @@
 "use client";
 
-import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronsUpDown, ListFilter } from "lucide-react";
 import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { cn } from "../lib/utils";
 import { focusRing } from "../lib/styles";
+import { BulkActionBar } from "./bulk-action-bar";
 import { Checkbox } from "./checkbox";
 import { EmptyState } from "./empty-state";
+import { ErrorState } from "./error-state";
+import { Pagination, type PaginationLabels } from "./pagination";
+import { Popover } from "./popover";
+import { Select } from "./select";
 import { Skeleton } from "./skeleton";
 
 export type SortDirection = "asc" | "desc";
@@ -34,6 +39,15 @@ export interface DataTableColumn<T> {
   hideBelow?: "md" | "lg" | "xl";
   className?: string;
   headerClassName?: string;
+  /**
+   * Filtro de la columna: contenido del panel que se abre desde la cabecera (Select, Combobox,
+   * DateRangePicker…). El estado del filtro lo lleva la app (normalmente en la URL).
+   */
+  filter?: ReactNode;
+  /** El filtro de la columna está aplicado (marca el botón). */
+  filterActive?: boolean;
+  /** Nombre de la columna para el botón de filtro si `header` no es texto. */
+  filterLabel?: string;
 }
 
 export interface DataTableLabels {
@@ -43,6 +57,14 @@ export interface DataTableLabels {
   loading?: string;
   emptyTitle?: string;
   emptyDescription?: string;
+  errorTitle?: string;
+  errorDescription?: string;
+  filter?: (column: string) => string;
+  filterActive?: string;
+  selectedCount?: (count: number) => string;
+  clearSelection?: string;
+  bulkActions?: string;
+  pageSize?: string;
 }
 
 const defaultLabels: Required<DataTableLabels> = {
@@ -52,7 +74,32 @@ const defaultLabels: Required<DataTableLabels> = {
   loading: "Cargando…",
   emptyTitle: "Sin resultados",
   emptyDescription: "No hay elementos que mostrar con estos filtros.",
+  errorTitle: "No se pudieron cargar los datos",
+  errorDescription: "Revisa tu conexión e inténtalo de nuevo.",
+  filter: (column) => `Filtrar por ${column}`,
+  filterActive: "filtro aplicado",
+  selectedCount: (count) => (count === 1 ? "1 seleccionada" : `${count} seleccionadas`),
+  clearSelection: "Quitar selección",
+  bulkActions: "Acciones masivas",
+  pageSize: "Filas por página",
 };
+
+/** Paginación `limit` / `offset` conectada a la tabla (reutiliza Pagination). */
+export interface DataTablePagination {
+  total: number;
+  limit: number;
+  offset: number;
+  onOffsetChange: (offset: number) => void;
+  /** Tamaños de página a elegir (p. ej. [20, 50, 100]); requiere `onLimitChange`. */
+  pageSizeOptions?: number[];
+  onLimitChange?: (limit: number) => void;
+  labels?: PaginationLabels;
+}
+
+/** Error de carga: `true` usa los textos por defecto. */
+export type DataTableError =
+  | boolean
+  | { title?: ReactNode; description?: ReactNode; detail?: ReactNode; onRetry?: () => void };
 
 export interface DataTableProps<T> {
   data: T[];
@@ -87,6 +134,16 @@ export interface DataTableProps<T> {
   loadingRows?: number;
   /** Contenido cuando no hay filas (por defecto un EmptyState). */
   empty?: ReactNode;
+  /** Error de carga (ErrorState con reintento en el cuerpo de la tabla). */
+  error?: DataTableError;
+
+  /**
+   * Barra de acciones masivas sobre la selección: recibe los ids elegidos y una función para
+   * vaciar la selección. Solo aparece con `selectable` y alguna fila elegida.
+   */
+  bulkActions?: (selectedIds: string[], clearSelection: () => void) => ReactNode;
+  /** Paginación `limit` / `offset` bajo la tabla. */
+  pagination?: DataTablePagination;
 
   /** Cabecera pegajosa dentro del contenedor (por defecto sí); solo actúa con `maxHeight`. */
   stickyHeader?: boolean;
@@ -98,7 +155,10 @@ export interface DataTableProps<T> {
   caption?: ReactNode;
   captionHidden?: boolean;
   labels?: DataTableLabels;
+  /** Clases del contenedor con scroll de la tabla. */
   className?: string;
+  /** Clases del envoltorio cuando hay `bulkActions` o `pagination`. */
+  wrapperClassName?: string;
 }
 
 const hideClasses = {
@@ -155,6 +215,9 @@ export function DataTable<T>({
   loading = false,
   loadingRows = 5,
   empty,
+  error,
+  bulkActions,
+  pagination,
   stickyHeader = true,
   maxHeight,
   bleed = false,
@@ -162,6 +225,7 @@ export function DataTable<T>({
   captionHidden = true,
   labels: labelsProp,
   className,
+  wrapperClassName,
 }: DataTableProps<T>) {
   const labels = { ...defaultLabels, ...labelsProp };
   const [sortState, setSortState] = useState<SortState | null>(defaultSort);
@@ -215,7 +279,7 @@ export function DataTable<T>({
   );
   const stickyStyle: CSSProperties | undefined = sticky ? { top: 0 } : undefined;
 
-  return (
+  const table = (
     <div
       className={cn(
         "w-full font-ui text-sm text-fg",
@@ -277,29 +341,69 @@ export function DataTable<T>({
                   )}
                   style={{ ...stickyStyle, width: column.width }}
                 >
-                  {column.sortable ? (
-                    <button
-                      type="button"
-                      onClick={() => updateSort(column.id)}
-                      className={cn(
-                        "inline-flex cursor-pointer items-center gap-1 rounded-sm uppercase hover:text-fg",
-                        active && "text-fg",
-                        (column.numeric || column.align === "right") && "flex-row-reverse",
-                        focusRing,
-                      )}
-                    >
-                      {column.header}
-                      {active === "asc" ? (
-                        <ArrowUp className="size-3.5" aria-hidden />
-                      ) : active === "desc" ? (
-                        <ArrowDown className="size-3.5" aria-hidden />
-                      ) : (
-                        <ChevronsUpDown className="size-3.5 opacity-50" aria-hidden />
-                      )}
-                    </button>
-                  ) : (
-                    column.header
-                  )}
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1",
+                      (column.numeric || column.align === "right") && "flex-row-reverse",
+                    )}
+                  >
+                    {column.sortable ? (
+                      <button
+                        type="button"
+                        onClick={() => updateSort(column.id)}
+                        className={cn(
+                          "inline-flex cursor-pointer items-center gap-1 rounded-sm uppercase hover:text-fg",
+                          active && "text-fg",
+                          (column.numeric || column.align === "right") && "flex-row-reverse",
+                          focusRing,
+                        )}
+                      >
+                        {column.header}
+                        {active === "asc" ? (
+                          <ArrowUp className="size-3.5" aria-hidden />
+                        ) : active === "desc" ? (
+                          <ArrowDown className="size-3.5" aria-hidden />
+                        ) : (
+                          <ChevronsUpDown className="size-3.5 opacity-50" aria-hidden />
+                        )}
+                      </button>
+                    ) : (
+                      column.header
+                    )}
+                    {column.filter ? (
+                      <Popover
+                        align={column.numeric || column.align === "right" ? "end" : "start"}
+                        trigger={
+                          <button
+                            type="button"
+                            aria-label={
+                              labels.filter(
+                                column.filterLabel ??
+                                  (typeof column.header === "string" ? column.header : column.id),
+                              ) + (column.filterActive ? ` (${labels.filterActive})` : "")
+                            }
+                            data-active={column.filterActive || undefined}
+                            className={cn(
+                              "relative inline-grid size-6 cursor-pointer place-items-center rounded-sm text-fg-subtle hover:bg-bg-deep hover:text-fg",
+                              "data-active:text-accent-text",
+                              focusRing,
+                            )}
+                          >
+                            <ListFilter className="size-3.5" aria-hidden />
+                            {column.filterActive ? (
+                              <span
+                                aria-hidden="true"
+                                className="absolute top-0.5 right-0.5 size-1.5 rounded-full bg-accent"
+                              />
+                            ) : null}
+                          </button>
+                        }
+                        className="grid gap-3 text-sm font-normal tracking-normal normal-case"
+                      >
+                        {column.filter}
+                      </Popover>
+                    ) : null}
+                  </span>
                 </th>
               );
             })}
@@ -326,6 +430,22 @@ export function DataTable<T>({
                 ))}
               </tr>
             ))
+          ) : error ? (
+            <tr>
+              <td colSpan={columnCount} className="p-0">
+                <ErrorState
+                  bare
+                  headingLevel={3}
+                  title={(typeof error === "object" ? error.title : undefined) ?? labels.errorTitle}
+                  description={
+                    (typeof error === "object" ? error.description : undefined) ??
+                    labels.errorDescription
+                  }
+                  detail={typeof error === "object" ? error.detail : undefined}
+                  onRetry={typeof error === "object" ? error.onRetry : undefined}
+                />
+              </td>
+            </tr>
           ) : rows.length === 0 ? (
             <tr>
               <td colSpan={columnCount} className="p-0">
@@ -402,6 +522,63 @@ export function DataTable<T>({
           )}
         </tbody>
       </table>
+    </div>
+  );
+
+  if (!bulkActions && !pagination) return table;
+
+  const clearSelection = () => updateSelection([]);
+  const pageSizeOptions = pagination?.pageSizeOptions;
+  return (
+    <div className={cn("grid w-full gap-3 font-ui text-sm", wrapperClassName)}>
+      {bulkActions && selectable ? (
+        <>
+          <span className="sr-only" aria-live="polite" aria-atomic="true">
+            {selected.length > 0 ? labels.selectedCount(selected.length) : ""}
+          </span>
+          {selected.length > 0 ? (
+            <BulkActionBar
+              count={selected.length}
+              announce={false}
+              onClear={clearSelection}
+              labels={{
+                region: labels.bulkActions,
+                selected: labels.selectedCount,
+                clear: labels.clearSelection,
+              }}
+            >
+              {bulkActions(selected, clearSelection)}
+            </BulkActionBar>
+          ) : null}
+        </>
+      ) : null}
+      {table}
+      {pagination ? (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Pagination
+            total={pagination.total}
+            limit={pagination.limit}
+            offset={pagination.offset}
+            onOffsetChange={pagination.onOffsetChange}
+            labels={pagination.labels}
+          />
+          {pageSizeOptions?.length && pagination.onLimitChange ? (
+            <label className="flex items-center gap-2 text-xs text-fg-subtle">
+              <span>{labels.pageSize}</span>
+              <Select
+                size="sm"
+                className="w-20"
+                value={String(pagination.limit)}
+                onValueChange={(value) => pagination.onLimitChange?.(Number(value))}
+                options={pageSizeOptions.map((size) => ({
+                  value: String(size),
+                  label: String(size),
+                }))}
+              />
+            </label>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

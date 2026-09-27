@@ -6,6 +6,16 @@
 // Utilidades y tipos
 export { cn } from "./lib/utils";
 export { focusRing } from "./lib/styles";
+export { normalizeText, matchesQuery } from "./lib/text";
+export { copyText, useCopy, type CopyStatus } from "./lib/use-copy";
+export {
+  formatHotkey,
+  isApplePlatform,
+  isTypingTarget,
+  matchesHotkey,
+  useHotkey,
+  type UseHotkeyOptions,
+} from "./lib/use-hotkey";
 export type { Tone, ThemeName } from "./lib/types";
 export {
   isNavItemActive,
@@ -51,6 +61,35 @@ export {
 } from "./components/radio-group";
 export { Switch, type SwitchProps } from "./components/switch";
 export { FormSection, type FormSectionProps } from "./components/form-section";
+export {
+  Combobox,
+  type ComboboxLabels,
+  type ComboboxMultipleProps,
+  type ComboboxOption,
+  type ComboboxProps,
+  type ComboboxSingleProps,
+} from "./components/combobox";
+export {
+  DateRangePicker,
+  daysInRange,
+  lastDaysRange,
+  toIsoDate,
+  validateDateRange,
+  type DateRange,
+  type DateRangeError,
+  type DateRangePickerLabels,
+  type DateRangePickerProps,
+  type DateRangePreset,
+  type DateRangeRules,
+} from "./components/date-range-picker";
+export { OtpInput, sanitizeOtp, type OtpInputProps } from "./components/otp-input";
+export { CopyField, type CopyFieldLabels, type CopyFieldProps } from "./components/copy-field";
+export {
+  SecretReveal,
+  groupSecret,
+  type SecretRevealLabels,
+  type SecretRevealProps,
+} from "./components/secret-reveal";
 
 // Estado y datos
 export { Badge, badgeVariants, type BadgeProps } from "./components/badge";
@@ -71,11 +110,49 @@ export {
   type KeyValueListProps,
 } from "./components/key-value-list";
 export { StatCard, type StatCardProps } from "./components/stat-card";
+export { KpiCard, type KpiBreakdownItem, type KpiCardProps } from "./components/kpi-card";
+export {
+  AlertsFeed,
+  type AlertLevel,
+  type AlertsFeedItem,
+  type AlertsFeedLabels,
+  type AlertsFeedProps,
+} from "./components/alerts-feed";
+export {
+  StatusBadge,
+  getStatusBadge,
+  statusBadgeMap,
+  type StatusBadgeProps,
+  type StatusDefinition,
+  type StatusKind,
+  type StatusOf,
+} from "./components/status-badge";
+export {
+  RoleMatrix,
+  type PermissionLevel,
+  type RoleMatrixCapability,
+  type RoleMatrixLabels,
+  type RoleMatrixProps,
+  type RoleMatrixRole,
+} from "./components/role-matrix";
+export {
+  FilterBar,
+  type ActiveFilter,
+  type FilterBarLabels,
+  type FilterBarProps,
+} from "./components/filter-bar";
+export {
+  BulkActionBar,
+  type BulkActionBarLabels,
+  type BulkActionBarProps,
+} from "./components/bulk-action-bar";
 export {
   DataTable,
   compareValues,
   type DataTableColumn,
+  type DataTableError,
   type DataTableLabels,
+  type DataTablePagination,
   type DataTableProps,
   type SortDirection,
   type SortState,
@@ -133,6 +210,11 @@ export {
   type PaginationProps,
 } from "./components/pagination";
 export { Stepper, type StepperProps, type StepperStep } from "./components/stepper";
+export {
+  OrganizationSwitcher,
+  type OrganizationOption,
+  type OrganizationSwitcherProps,
+} from "./components/organization-switcher";
 
 // Overlays
 export { Modal, ModalClose, type ModalProps } from "./components/modal";
@@ -141,6 +223,20 @@ export { BottomSheet, type BottomSheetProps } from "./components/bottom-sheet";
 export { Popover, PopoverClose, type PopoverProps } from "./components/popover";
 export { Menu, type MenuEntry, type MenuProps } from "./components/menu";
 export { Tooltip, type TooltipProps } from "./components/tooltip";
+export { ConfirmDialog, type ConfirmDialogProps } from "./components/confirm-dialog";
+export {
+  ReasonDialog,
+  validateReason,
+  type ReasonDialogLabels,
+  type ReasonDialogProps,
+} from "./components/reason-dialog";
+export {
+  CommandPalette,
+  type CommandPaletteGroup,
+  type CommandPaletteItem,
+  type CommandPaletteLabels,
+  type CommandPaletteProps,
+} from "./components/command-palette";
 
 // Shells
 export { AppShell, type AppShellProps, type ShellLabels, type ShellUser } from "./shells/app-shell";

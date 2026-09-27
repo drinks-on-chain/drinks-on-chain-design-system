@@ -30,20 +30,61 @@ export interface DialogBaseProps {
   children?: ReactNode;
 }
 
+/** Diálogos abiertos (o que se están cerrando) y el elemento al que devolverán el foco. */
+const returnTargets = new WeakMap<Element, { current: HTMLElement | null }>();
+
+const DIALOG_SELECTOR = '[role="dialog"], [role="alertdialog"], dialog[open]';
+
+/** Destino válido para devolver el foco: conectado y distinto de <body>. */
+function isFocusTarget(el: HTMLElement | null | undefined): el is HTMLElement {
+  return Boolean(el?.isConnected) && el !== document.body;
+}
+
+/**
+ * Diálogo abierto, distinto de `closing`, que tiene ahora el foco (p. ej. el que abrió la acción
+ * elegida en la paleta o confirmada en un ConfirmDialog).
+ */
+function dialogHoldingFocus(closing: Element | null): Element | null {
+  const active = document.activeElement;
+  if (!(active instanceof HTMLElement) || active === document.body) return null;
+  const holder = active.closest(DIALOG_SELECTOR);
+  if (!holder || holder === closing || holder.getAttribute("data-state") === "closed") return null;
+  return holder;
+}
+
 /**
  * Devuelve el foco al elemento que lo tenía al abrir. Radix solo lo devuelve a su Trigger; en un
  * diálogo controlado (`open`) sin `trigger`, el foco acababa en <body>.
+ *
+ * Si al cerrarse el foco ya está en otro diálogo abierto después (la acción elegida abrió uno
+ * nuevo), no lo toca: el nuevo diálogo hereda el destino de devolución y lo usa al cerrarse.
  */
 export function useReturnFocus(hasTrigger: boolean) {
   const previous = useRef<HTMLElement | null>(null);
   return {
-    onOpenAutoFocus: () => {
+    onOpenAutoFocus: (event: Event) => {
       previous.current =
         document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      if (event.target instanceof Element) returnTargets.set(event.target, previous);
     },
     onCloseAutoFocus: (event: Event) => {
+      const closing = event.target instanceof Element ? event.target : null;
+      if (closing) returnTargets.delete(closing);
       const el = previous.current;
-      if (hasTrigger || !el?.isConnected) return;
+      const holder = dialogHoldingFocus(closing);
+      if (holder) {
+        event.preventDefault();
+        const inherited = returnTargets.get(holder);
+        if (
+          inherited &&
+          isFocusTarget(el) &&
+          (!isFocusTarget(inherited.current) || closing?.contains(inherited.current))
+        ) {
+          inherited.current = el;
+        }
+        return;
+      }
+      if (hasTrigger || !isFocusTarget(el)) return;
       event.preventDefault();
       el.focus();
     },

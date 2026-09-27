@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import {
   AdminShell,
   Alert,
+  AlertsFeed,
   Badge,
   Button,
   Card,
@@ -14,19 +15,22 @@ import {
   IconButton,
   Input,
   KeyValueList,
+  KpiCard,
   Menu,
   Modal,
   ModalClose,
+  OrganizationSwitcher,
   Pagination,
   Pill,
   PillGroup,
   Select,
   SlideOver,
-  StatCard,
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
+  type AlertsFeedItem,
+  type CommandPaletteGroup,
   type DataTableColumn,
 } from "../../index";
 import { adminNavigation } from "../navigation";
@@ -42,13 +46,61 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const paletteGroups: CommandPaletteGroup[] = [
+  {
+    heading: "Ir a",
+    items: adminNavigation.flatMap((group) =>
+      group.items.map((item) => ({
+        id: item.href,
+        label: item.label,
+        icon: item.icon,
+        onSelect: () => {},
+      })),
+    ),
+  },
+  {
+    heading: "Bodegas",
+    items: [
+      {
+        id: "w1",
+        label: "Destilería Cinti Viejo",
+        description: "Cinti · Camargo",
+        onSelect: () => {},
+      },
+      {
+        id: "w2",
+        label: "Bodega Altos de Calamuchita",
+        description: "Tarija · Santa Ana",
+        onSelect: () => {},
+      },
+    ],
+  },
+];
+
+function Organizations() {
+  const [active, setActive] = useState("platform");
+  return (
+    <OrganizationSwitcher
+      activeId={active}
+      onChange={setActive}
+      organizations={[
+        { id: "platform", name: "Drinks on Chain", description: "Plataforma · ADMIN" },
+        { id: "w1", name: "Destilería Cinti Viejo", description: "Bodega · OWNER" },
+      ]}
+    />
+  );
+}
+
 function Admin({ path, children }: { path: string; children: ReactNode }) {
   return (
     <AdminShell
       navigation={adminNavigation}
       currentPath={path}
       user={{ name: "Ana Gutiérrez", role: "Gestora · admin_plataforma" }}
-      search={{ onOpen: () => {}, placeholder: "Buscar bodega, lote, usuario, ticket…" }}
+      userMenu={[{ label: "Mi perfil" }, { type: "separator" }, { label: "Cerrar sesión" }]}
+      search={{ placeholder: "Buscar bodega, lote, usuario, ticket…" }}
+      commandPalette={{ groups: paletteGroups, placeholder: "Buscar bodega, lote, usuario…" }}
+      organizationSwitcher={<Organizations />}
       notifications={
         <>
           <IconButton label="Notificaciones">
@@ -57,7 +109,6 @@ function Admin({ path, children }: { path: string; children: ReactNode }) {
           <Badge tone="warning">2 alertas</Badge>
         </>
       }
-      className="text-sm"
     >
       {children}
     </AdminShell>
@@ -86,21 +137,25 @@ function RangeFilter() {
   );
 }
 
-const alerts = [
+const alerts: AlertsFeedItem[] = [
   {
-    tone: "bg-success",
-    text: (
+    id: "al1",
+    tone: "success",
+    message: (
       <>
         Cinti Viejo finalizó embotellado · <strong>2.200 botellas</strong> Singani Gran Reserva 2026
       </>
     ),
-    meta: "hace 12 min · lote listo para emitir",
+    time: "hace 12 min",
+    meta: "lote listo para emitir",
     action: <Button size="sm">Revisar</Button>,
   },
   {
-    tone: "bg-warning",
-    text: "Altos de Calamuchita · Tanque 04 con temperatura alta 3 días seguidos",
-    meta: "hace 2 h · informativo",
+    id: "al2",
+    level: "WARNING",
+    message: "Altos de Calamuchita · Tanque 04 con temperatura alta 3 días seguidos",
+    time: "hace 2 h",
+    meta: "informativo",
     action: (
       <Button size="sm" variant="secondary">
         Ver
@@ -108,9 +163,11 @@ const alerts = [
     ),
   },
   {
-    tone: "bg-info",
-    text: "Emisión VPAT24 confirmada en la red",
-    meta: "ayer · hash 77be…0d",
+    id: "al3",
+    level: "INFO",
+    message: "Emisión VPAT24 confirmada en la red",
+    time: "ayer",
+    meta: "hash 77be…0d",
     action: (
       <Button size="sm" variant="secondary">
         Explorador ↗
@@ -156,20 +213,15 @@ export const Dashboard: Story = {
         <RangeFilter />
       </div>
       <div className="mb-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          label="Nuevos miembros"
-          value="318"
-          delta="+24 % vs. semana anterior"
-          trend="up"
-        />
-        <StatCard label="Botellas tokenizadas" value="5.320" delta="4 colecciones activas" />
-        <StatCard
+        <KpiCard label="Nuevos miembros" value="318" delta="+24 % vs. semana anterior" trend="up" />
+        <KpiCard label="Botellas tokenizadas" value="5.320" delta="4 colecciones activas" />
+        <KpiCard
           label="Retiros confirmados"
           value="541"
           delta="98,7 % sin incidencias"
           trend="up"
         />
-        <StatCard
+        <KpiCard
           label="Tickets abiertos"
           value="6"
           tone="warning"
@@ -187,21 +239,7 @@ export const Dashboard: Story = {
               </Button>
             }
           />
-          <ul className="m-0 list-none p-0">
-            {alerts.map((alert, index) => (
-              <li
-                key={index}
-                className="grid grid-cols-[8px_1fr_auto] items-start gap-3 border-b border-border py-2.5 last:border-b-0"
-              >
-                <span aria-hidden="true" className={`mt-1.5 size-2 rounded-full ${alert.tone}`} />
-                <div>
-                  {alert.text}
-                  <small className="block text-xs text-fg-subtle">{alert.meta}</small>
-                </div>
-                {alert.action}
-              </li>
-            ))}
-          </ul>
+          <AlertsFeed items={alerts} />
         </Card>
         <Card>
           <CardHeader
