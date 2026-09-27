@@ -34,9 +34,22 @@ Detalle de la Etapa 0.1 de `docs/03-roadmap-frontend.md` («las cinco maquetas d
 - [x] `release.yml` publica las etiquetas con guion (`vX.Y.Z-rc.N`, sobre `dev`) como pre-release · 27-09-2026
 - [ ] Plantilla y ERP a `ui` 0.2.x (O0-PK-1; pistas de la plantilla y del ERP)
 
-## Siguiente (0.2 y posteriores)
+## 0.3.0 · componentes del Backoffice (Ola 1, O1-PK-1)
 
-- [ ] Combobox y CommandPalette (buscador global ⌘K del Backoffice)
+- [x] `Combobox` (teclado, asíncrono, vacío / carga / error, simple y múltiple) sobre el Popover de Radix · 27-09-2026
+- [x] `CommandPalette` (⌘K / Ctrl+K, grupos, atajos, flechas, Esc, `aria-live`) y `useHotkey` · 27-09-2026
+- [x] `DataTable` densa: acciones masivas, filtro por columna, paginación `limit/offset` con tamaño de página, estado de error; `BulkActionBar` · 27-09-2026
+- [x] `FilterBar`, `DateRangePicker` (sin dependencias) y `StatusBadge` con los estados del contrato O1 · 27-09-2026
+- [x] `ReasonDialog` (motivo 3–500) y `ConfirmDialog` (destructiva, confirmación escrita) · 27-09-2026
+- [x] `OtpInput`, `CopyField` y `SecretReveal` para el segundo factor (TOTP y códigos de recuperación) · 27-09-2026
+- [x] `KpiCard`, `AlertsFeed`, `RoleMatrix` y `OrganizationSwitcher` · 27-09-2026
+- [x] `AdminShell` según la maqueta 03: paleta integrada, selector de organización, menú de usuario, Inter 14 px · 27-09-2026
+- [x] Historias (Oro / Cava, compacta) y pruebas Vitest de cada componente; CHANGELOG 0.3.0 · 27-09-2026
+- [ ] Integración en `dev` con CI verde y pre-release `v0.3.0-rc.1` (tarball verificado)
+- [ ] PR `dev → main` y etiqueta `v0.3.0` (coordinación)
+
+## Siguiente
+
 - [ ] CameraScanner compartido por Marketplace y POS
 - [ ] Componentes editoriales de 05 §3.2 (SmallHeading, Prose, InkPhoto, AgeGate…) al migrar las landings
 - [ ] Pruebas visuales por componente en los dos temas (Chromatic u otra herramienta) y Lighthouse ≥ 95
