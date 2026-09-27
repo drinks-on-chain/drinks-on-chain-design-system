@@ -6,6 +6,7 @@
 // Utilidades y tipos
 export { cn } from "./lib/utils";
 export { focusRing } from "./lib/styles";
+export { normalizeText, matchesQuery } from "./lib/text";
 export {
   formatHotkey,
   isApplePlatform,
@@ -59,6 +60,14 @@ export {
 } from "./components/radio-group";
 export { Switch, type SwitchProps } from "./components/switch";
 export { FormSection, type FormSectionProps } from "./components/form-section";
+export {
+  Combobox,
+  type ComboboxLabels,
+  type ComboboxMultipleProps,
+  type ComboboxOption,
+  type ComboboxProps,
+  type ComboboxSingleProps,
+} from "./components/combobox";
 
 // Estado y datos
 export { Badge, badgeVariants, type BadgeProps } from "./components/badge";
