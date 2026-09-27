@@ -193,6 +193,13 @@ export { BottomSheet, type BottomSheetProps } from "./components/bottom-sheet";
 export { Popover, PopoverClose, type PopoverProps } from "./components/popover";
 export { Menu, type MenuEntry, type MenuProps } from "./components/menu";
 export { Tooltip, type TooltipProps } from "./components/tooltip";
+export { ConfirmDialog, type ConfirmDialogProps } from "./components/confirm-dialog";
+export {
+  ReasonDialog,
+  validateReason,
+  type ReasonDialogLabels,
+  type ReasonDialogProps,
+} from "./components/reason-dialog";
 export {
   CommandPalette,
   type CommandPaletteGroup,
