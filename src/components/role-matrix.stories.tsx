@@ -84,3 +84,17 @@ export const Compacta: Story = {};
 export const Comoda: Story = { args: { density: "comfortable", highlightRole: undefined } };
 
 export const Cava: Story = { globals: { theme: "cava" } };
+
+/**
+ * En un contenedor estrecho la tabla desborda: el contenedor desplazable entra en el orden de
+ * tabulación (región con el nombre de la tabla y foco visible) para recorrerlo con las flechas.
+ */
+export const Desbordada: Story = {
+  decorators: [
+    (Story) => (
+      <div className="max-w-[420px]">
+        <Story />
+      </div>
+    ),
+  ],
+};
