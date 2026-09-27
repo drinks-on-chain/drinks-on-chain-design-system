@@ -7,6 +7,7 @@
 export { cn } from "./lib/utils";
 export { focusRing } from "./lib/styles";
 export { normalizeText, matchesQuery } from "./lib/text";
+export { copyText, useCopy, type CopyStatus } from "./lib/use-copy";
 export {
   formatHotkey,
   isApplePlatform,
@@ -81,6 +82,14 @@ export {
   type DateRangePreset,
   type DateRangeRules,
 } from "./components/date-range-picker";
+export { OtpInput, sanitizeOtp, type OtpInputProps } from "./components/otp-input";
+export { CopyField, type CopyFieldLabels, type CopyFieldProps } from "./components/copy-field";
+export {
+  SecretReveal,
+  groupSecret,
+  type SecretRevealLabels,
+  type SecretRevealProps,
+} from "./components/secret-reveal";
 
 // Estado y datos
 export { Badge, badgeVariants, type BadgeProps } from "./components/badge";
