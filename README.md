@@ -178,7 +178,7 @@ Las fuentes se regeneran con `node scripts/sync-fonts.mjs` (copia desde `@fontso
 4. El workflow `release.yml` comprueba que la etiqueta coincide con `package.json`, pasa lint, tipos, pruebas y build, ejecuta `pnpm pack` y crea la GitHub Release con `drinks-on-chain-ui-X.Y.Z.tgz` y las notas del CHANGELOG.
 5. En cada app, actualiza la URL del tarball con un PR.
 
-**Pre-release** (plan/03 §3): con `version` = `X.Y.Z-rc.N` en `dev`, etiqueta el commit de `dev` con `vX.Y.Z-rc.N`. El mismo workflow la publica marcada como pre-release (nunca «Latest»), con las notas de la sección `## [X.Y.Z-rc.N]` del CHANGELOG si existe.
+**Pre-release** (plan/03 §3): con `version` = `X.Y.Z` (la versión que prepara `dev`) y la CI verde, etiqueta el commit de `dev` con `vX.Y.Z-rc.N`. El mismo workflow empaqueta `drinks-on-chain-ui-X.Y.Z-rc.N.tgz` y lo publica marcado como pre-release (nunca «Latest»), con las notas de `## [X.Y.Z-rc.N]` del CHANGELOG o, si no existe, las de `## [X.Y.Z]`.
 
 ## Licencia
 

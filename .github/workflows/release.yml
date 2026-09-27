@@ -26,14 +26,22 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # vX.Y.Z exige package.json = X.Y.Z. Una pre-release vX.Y.Z-rc.N vale con package.json =
+      # X.Y.Z (la versión que prepara dev) o X.Y.Z-rc.N; el tarball se empaqueta como X.Y.Z-rc.N.
       - name: Comprobar que la etiqueta coincide con package.json
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
-            echo "La etiqueta $GITHUB_REF_NAME no coincide con la versión $VERSION de package.json"
-            exit 1
-          fi
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          PKG=$(node -p "require('./package.json').version")
+          TAG="${GITHUB_REF_NAME#v}"
+          case "$TAG" in
+            "$PKG") ;;
+            "$PKG"-*) npm pkg set version="$TAG" ;;
+            *)
+              echo "La etiqueta $GITHUB_REF_NAME no coincide con la versión $PKG de package.json"
+              exit 1
+              ;;
+          esac
+          echo "VERSION=$TAG" >> "$GITHUB_ENV"
+          echo "BASE_VERSION=${TAG%%-*}" >> "$GITHUB_ENV"
 
       - run: pnpm lint
       - run: pnpm typecheck
@@ -43,13 +51,18 @@ jobs:
       - name: Empaquetar
         run: pnpm pack
 
+      # Sección de la versión exacta o, en una pre-release, la de la versión que prepara.
       - name: Notas desde CHANGELOG.md
         run: |
-          awk -v v="$VERSION" '
-            index($0, "## [" v "]") == 1 || index($0, "## " v " ") == 1 { found = 1; next }
-            found && /^## / { exit }
-            found { print }
-          ' CHANGELOG.md > release-notes.md
+          notes() {
+            awk -v v="$1" '
+              index($0, "## [" v "]") == 1 || index($0, "## " v " ") == 1 { found = 1; next }
+              found && /^## / { exit }
+              found { print }
+            ' CHANGELOG.md
+          }
+          notes "$VERSION" > release-notes.md
+          if [ ! -s release-notes.md ]; then notes "$BASE_VERSION" > release-notes.md; fi
           if [ ! -s release-notes.md ]; then echo "Versión $VERSION" > release-notes.md; fi
 
       - name: Crear la GitHub Release con el tarball
