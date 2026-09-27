@@ -102,6 +102,15 @@ export {
 } from "./components/key-value-list";
 export { StatCard, type StatCardProps } from "./components/stat-card";
 export {
+  StatusBadge,
+  getStatusBadge,
+  statusBadgeMap,
+  type StatusBadgeProps,
+  type StatusDefinition,
+  type StatusKind,
+  type StatusOf,
+} from "./components/status-badge";
+export {
   FilterBar,
   type ActiveFilter,
   type FilterBarLabels,
