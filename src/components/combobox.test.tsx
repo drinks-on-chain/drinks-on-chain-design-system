@@ -1,9 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { Combobox, type ComboboxOption } from "./combobox";
 import { Field } from "./field";
+import { Modal } from "./modal";
 
 const wineries: ComboboxOption[] = [
   { value: "cinti", label: "Destilería Cinti Viejo", description: "Cinti · Camargo" },
@@ -163,5 +164,35 @@ describe("Combobox", () => {
     await userEvent.click(screen.getByRole("button", { name: "Borrar selección" }));
     expect(onValueChange).toHaveBeenCalledWith(null, null);
     expect(screen.getByRole("combobox")).toHaveValue("");
+  });
+});
+
+describe("Combobox encadenado con un diálogo", () => {
+  function ComboboxThenModal() {
+    const [value, setValue] = useState<string | null>(null);
+    return (
+      <>
+        <Combobox aria-label="Bodega" options={wineries} value={value} onValueChange={setValue} />
+        <Modal open={value !== null} onOpenChange={() => setValue(null)} title="Bodega elegida">
+          <p>{value}</p>
+        </Modal>
+      </>
+    );
+  }
+
+  it("no roba el foco al diálogo que abre la elección y lo recupera al cerrarlo", async () => {
+    render(<ComboboxThenModal />);
+    const input = screen.getByRole("combobox", { name: "Bodega" });
+    await userEvent.click(input);
+    const focusInput = vi.spyOn(input, "focus");
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    const modal = await screen.findByRole("dialog", { name: "Bodega elegida" });
+    await act(() => new Promise((done) => setTimeout(done, 20)));
+    expect(focusInput).not.toHaveBeenCalled();
+    focusInput.mockRestore();
+    expect(modal).toContainElement(document.activeElement as HTMLElement);
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(modal).not.toBeInTheDocument());
+    await waitFor(() => expect(input).toHaveFocus());
   });
 });

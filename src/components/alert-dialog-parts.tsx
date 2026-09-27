@@ -114,7 +114,7 @@ export function ConfirmFrame({
         <AlertDialogPrimitive.Content
           {...(description ? {} : { "aria-describedby": undefined })}
           onOpenAutoFocus={(event) => {
-            returnFocus.onOpenAutoFocus();
+            returnFocus.onOpenAutoFocus(event);
             if (initialFocusRef?.current) {
               event.preventDefault();
               initialFocusRef.current.focus();
