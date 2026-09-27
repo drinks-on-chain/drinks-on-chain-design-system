@@ -67,21 +67,21 @@ Para cambiarlo en tiempo de ejecución, `ThemeProvider` (escribe `data-theme` en
 import { Button, Field, Input, DataTable, Modal, toast, cn } from "@drinks-on-chain/ui";
 ```
 
-- **Utilidades**: `cn()` (clsx + tailwind-merge configurado con la escala propia), `focusRing`, `isNavItemActive`. En Server Components importa `cn` desde `@drinks-on-chain/ui/utils`, que no pasa por ningún módulo cliente.
+- **Utilidades**: `cn()` (clsx + tailwind-merge configurado con la escala propia), `focusRing`, `isNavItemActive`, `useHotkey()` / `formatHotkey()` / `matchesHotkey()` (atajos: `"mod+k"` es ⌘K o Ctrl+K), `useCopy()` / `copyText()`, `normalizeText()` / `matchesQuery()` (búsqueda sin tildes). En Server Components importa `cn` desde `@drinks-on-chain/ui/utils`, que no pasa por ningún módulo cliente.
 - **Acciones**: `Button` (primary / secondary / tertiary / destructive / success; sm, md, lg, xl 56 px, kiosk 72 px; `loading`, `iconStart`, `iconEnd`, `asChild`), `IconButton` (`label` obligatorio), `TextLink`.
-- **Formularios**: `Field` (etiqueta, `help`, `error`, `required`; conecta `id`, `aria-describedby`, `aria-invalid` y `required` con el control), `Input` (`prefix`, `suffix`, `numeric`, `giant`), `Textarea`, `Select` (+ `SelectItem`, `SelectGroup`, `SelectSeparator`), `Checkbox`, `RadioGroup` (+ `RadioGroupItem`, variante `card`), `Switch`, `FormSection`. Para controles propios: `useFieldControl()`.
-- **Estado y datos**: `Badge` (tonos neutral / accent / success / danger / warning / info; soft / strong; punto), `Tag`, `Pill` + `PillGroup`, `Avatar`, `Card` + `CardHeader`, `Divider`, `KeyValueList`, `StatCard`, `DataTable`, `Timeline`, `Countdown`, `QRCode`, `Wordmark`.
+- **Formularios**: `Field` (etiqueta, `help`, `error`, `required`; conecta `id`, `aria-describedby`, `aria-invalid` y `required` con el control), `Input` (`prefix`, `suffix`, `numeric`, `giant`), `Textarea`, `Select` (+ `SelectItem`, `SelectGroup`, `SelectSeparator`), `Checkbox`, `RadioGroup` (+ `RadioGroupItem`, variante `card`), `Switch`, `FormSection`, `Combobox` (búsqueda con teclado, `loadOptions` asíncrono, `multiple`), `DateRangePicker` (dos fechas ISO con validación y preajustes), `OtpInput` (TOTP de 6 dígitos, pegar, `autocomplete="one-time-code"`), `CopyField`. Para controles propios: `useFieldControl()`.
+- **Estado y datos**: `Badge` (tonos neutral / accent / success / danger / warning / info; soft / strong; punto), `Tag`, `Pill` + `PillGroup`, `Avatar`, `Card` + `CardHeader`, `Divider`, `KeyValueList`, `StatCard`, `KpiCard`, `AlertsFeed`, `StatusBadge` (estados del contrato: solicitudes, bodegas, invitaciones, miembros, alertas), `RoleMatrix`, `FilterBar`, `BulkActionBar`, `SecretReveal`, `DataTable`, `Timeline`, `Countdown`, `QRCode`, `Wordmark`.
 - **Feedback**: `Alert`, `Toast` + `Toaster` + `toast()`, `Skeleton` + `SkeletonText`, `Spinner`, `Progress`, `EmptyState`, `ErrorState` (`onRetry`).
-- **Navegación**: `Tabs` (+ `TabsList`, `TabsTrigger`, `TabsContent`), `Breadcrumbs`, `Pagination` (`total`, `limit`, `offset`, `onOffsetChange`), `Stepper`.
-- **Overlays**: `Modal` (+ `ModalClose`), `SlideOver`, `BottomSheet`, `Popover` (+ `PopoverClose`), `Menu`, `Tooltip`.
-- **Shells**: `AppShell` (ERP), `AdminShell` (Backoffice), `StoreShell` (Marketplace), `KioskShell` (POS), `AuthLayout` (`split`, `centered`, `veiled`, `pin`), `PageShell` (editorial).
+- **Navegación**: `Tabs` (+ `TabsList`, `TabsTrigger`, `TabsContent`), `Breadcrumbs`, `Pagination` (`total`, `limit`, `offset`, `onOffsetChange`), `Stepper`, `OrganizationSwitcher`.
+- **Overlays**: `Modal` (+ `ModalClose`), `SlideOver`, `BottomSheet`, `Popover` (+ `PopoverClose`), `Menu`, `Tooltip`, `CommandPalette` (⌘K / Ctrl+K), `ConfirmDialog` (confirmación escrita opcional), `ReasonDialog` (motivo obligatorio de 3–500 caracteres).
+- **Shells**: `AppShell` (ERP), `AdminShell` (Backoffice: `commandPalette`, `organizationSwitcher`, `notifications`), `StoreShell` (Marketplace), `KioskShell` (POS), `AuthLayout` (`split`, `centered`, `veiled`, `pin`), `PageShell` (editorial).
 
 Convenciones:
 
 - Textos por defecto en español ("Cargando…", "Reintentar", "Cerrar", "Página siguiente"…) y siempre sobrescribibles por props (`closeLabel`, `retryLabel`, `labels={{…}}`).
 - Todos los componentes aceptan `className` (se fusiona con `cn`) y reenvían el resto de props al elemento raíz. `ref` es una prop normal (React 19).
 - Los componentes interactivos llevan `"use client"` en su propio módulo; los estáticos (`Badge`, `Card`, `StatCard`, `Breadcrumbs`, `AuthLayout`, `PageShell`…) funcionan en Server Components.
-- `DataTable<T>` tipa sus columnas (`DataTableColumn<T>`: `accessor`, `cell`, `sortable`, `numeric`, `hideBelow`…); ordena en cliente o, con `manualSorting`, delega el orden en la API. La cabecera pegajosa se pega bajo la barra de los shells (`--doc-sticky-offset`) o dentro del contenedor si se pasa `maxHeight`.
+- `DataTable<T>` tipa sus columnas (`DataTableColumn<T>`: `accessor`, `cell`, `sortable`, `numeric`, `hideBelow`…); ordena en cliente o, con `manualSorting`, delega el orden en la API. Para el Backoffice: `density="compact"`, `selectable` + `bulkActions`, `column.filter` (panel en la cabecera), `pagination` (`limit` / `offset`, tamaño de página) y `error` con reintento. La cabecera pegajosa se pega bajo la barra de los shells (`--doc-sticky-offset`) o dentro del contenedor si se pasa `maxHeight`.
 - `Toaster` se monta una vez en la raíz; `toast({ title, description, tone, action })` desde cualquier parte.
 
 ### Enlaces y shells en Next.js

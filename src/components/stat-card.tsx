@@ -14,6 +14,8 @@ export interface StatCardProps extends HTMLAttributes<HTMLDivElement> {
   trend?: "up" | "down" | "neutral";
   /** Tono de la cifra (p. ej. "warning" para alertas). */
   tone?: Extract<Tone, "neutral" | "warning" | "danger" | "success">;
+  /** Contenido bajo la variación (desglose, enlace a la lista). */
+  footer?: ReactNode;
 }
 
 const toneClasses = {
@@ -31,6 +33,7 @@ export function StatCard({
   delta,
   trend = "neutral",
   tone = "neutral",
+  footer,
   className,
   ...props
 }: StatCardProps) {
@@ -64,6 +67,7 @@ export function StatCard({
           {delta}
         </span>
       ) : null}
+      {footer ? <div className="mt-2 text-xs text-fg-muted">{footer}</div> : null}
     </div>
   );
 }

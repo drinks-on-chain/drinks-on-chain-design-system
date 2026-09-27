@@ -2,6 +2,31 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); el proyecto sigue [versionado semántico](https://semver.org/lang/es/).
 
+## [0.3.0] · 2026-09-27
+
+Componentes del Backoffice para la Ola 1 (O1-PK-1): alta de bodegas, equipos, configuración, bitácora y segundo factor. Sin rupturas respecto a 0.2.0.
+
+### Añadido
+
+- `Combobox`: patrón combobox de WAI-ARIA sobre el Popover de Radix (flechas, Enter, Esc, `aria-activedescendant`), filtro sin tildes, grupos, opciones desactivadas, selección simple o `multiple` (chips que se quitan con el botón o con Retroceso), `clearable`, búsqueda asíncrona con `loadOptions` (espera configurable, cancelación con `AbortSignal`, `minQueryLength`), estados de carga, vacío y error anunciados con `aria-live`, integración con `Field`.
+- `CommandPalette`: buscador global (⌘K / Ctrl+K) en un diálogo modal, con grupos, iconos, atajos, navegación con flechas / Inicio / Fin, Enter, Esc, filtro en cliente o en el servidor (`filter={false}` + `onQueryChange`), carga y número de resultados anunciado con `aria-live`.
+- `useHotkey`, `matchesHotkey`, `formatHotkey`, `isTypingTarget`, `isApplePlatform`: atajos de teclado (`"mod+k"`, `"/"`, `"escape"`…) que respetan los campos de texto.
+- `DataTable`: `bulkActions` (barra de acciones masivas sobre la selección, con recuento anunciado), `column.filter` / `filterActive` (panel de filtro desde la cabecera), `pagination` (`limit` / `offset` con `Pagination` y tamaño de página opcional), `error` (ErrorState con reintento en el cuerpo) y `wrapperClassName`.
+- `BulkActionBar`, `FilterBar` (controles, chips de filtros activos que se quitan con teclado y devuelven el foco, "Limpiar filtros", recuento con `aria-live`) y `DateRangePicker` (dos fechas nativas con validación de orden, mínimo, máximo y duración; preajustes; `validateDateRange`, `lastDaysRange`, `toIsoDate`, `daysInRange`; sin dependencias).
+- `StatusBadge`, `getStatusBadge` y `statusBadgeMap`: estados del contrato de la Ola 1 (solicitudes, bodegas, invitaciones, miembros y alertas) sobre los tonos de estado AA; un estado desconocido se muestra en neutro.
+- `ConfirmDialog` (AlertDialog de Radix, acción asíncrona con carga y error, variante destructiva, confirmación escrita con `confirmationText`) y `ReasonDialog` (motivo obligatorio de 3–500 caracteres con contador, validación, error del servidor con `reasonError`; `validateReason`).
+- `OtpInput` (6 dígitos en casillas sobre un único campo: pegar, avance automático, `autocomplete="one-time-code"`, `onComplete`), `CopyField` (copiar con aviso anunciado, valor oculto con `masked`) y `SecretReveal` (QR `otpauth://`, clave agrupada, códigos de recuperación con copiar y descargar, casilla "He guardado…").
+- `KpiCard` (StatCard con carga, desglose y enlace a la lista), `AlertsFeed` (niveles INFO / WARNING / CRITICAL con texto para lectores, acción por fila, carga, vacío, error y `live`), `RoleMatrix` (capacidades × roles con FULL / READ / OWN / NONE, cabeceras de fila y columna, leyenda) y `OrganizationSwitcher`.
+- `AdminShell`: `commandPalette` (la paleta integrada que abren el buscador, ⌘K / Ctrl+K y `/`) y `organizationSwitcher` en la barra superior.
+- `StatCard`: prop `footer`.
+- Utilidades `normalizeText`, `matchesQuery`, `copyText` y `useCopy`.
+- Storybook: historias de cada componente en los dos temas y en densidad compacta; la maqueta del Backoffice usa la paleta, el selector de organización, `KpiCard` y `AlertsFeed`.
+
+### Cambiado
+
+- `AdminShell`: el contenido usa Inter 14 px (`text-sm`, densidad del Backoffice, 05 §5); el atajo mostrado es "⌘K" en macOS y "Ctrl K" en el resto (antes siempre "⌘K"); `search.onOpen` pasa a ser opcional cuando se usa `commandPalette`.
+- `DataTable`: el contenido de cada cabecera va dentro de un `<span>` en línea (para alinear el botón de filtro); sin `bulkActions` ni `pagination` el DOM exterior no cambia.
+
 ## [0.2.0] · 2026-09-25
 
 ### Añadido

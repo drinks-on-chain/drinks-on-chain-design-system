@@ -9,6 +9,7 @@ import { EmptyState } from "./empty-state";
 import { IconButton } from "./icon-button";
 import { Menu } from "./menu";
 import { Pagination } from "./pagination";
+import { Select } from "./select";
 
 const columns: DataTableColumn<LotRow>[] = [
   {
@@ -110,5 +111,82 @@ export const Vacia: Story = {
         action={<Button size="sm">Registrar ingreso</Button>}
       />
     ),
+  },
+};
+
+function BackofficeTable() {
+  const [selected, setSelected] = useState<string[]>([]);
+  const [sort, setSort] = useState<SortState | null>({ columnId: "lot", direction: "asc" });
+  const [status, setStatus] = useState<string | undefined>(undefined);
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(20);
+  const filtered: DataTableColumn<LotRow>[] = columns.map((column) =>
+    column.id === "status"
+      ? {
+          ...column,
+          filterActive: Boolean(status),
+          filter: (
+            <Select
+              size="sm"
+              aria-label="Estado"
+              placeholder="Todos los estados"
+              value={status ?? ""}
+              onValueChange={setStatus}
+              options={Object.entries(statusBadge).map(([value, { label }]) => ({ value, label }))}
+            />
+          ),
+        }
+      : column,
+  );
+  return (
+    <DataTable
+      data={status ? lots.filter((row) => row.status === status) : lots}
+      columns={filtered}
+      getRowId={(row) => row.id}
+      caption="Lotes"
+      density="compact"
+      maxHeight="360px"
+      selectable
+      selectedIds={selected}
+      onSelectionChange={setSelected}
+      sort={sort}
+      onSortChange={setSort}
+      bulkActions={(ids, clear) => (
+        <>
+          <Button size="sm" variant="secondary" onClick={clear}>
+            Exportar {ids.length}
+          </Button>
+          <Button size="sm" variant="destructive" onClick={clear}>
+            Archivar
+          </Button>
+        </>
+      )}
+      pagination={{
+        total: 48,
+        limit,
+        offset,
+        onOffsetChange: setOffset,
+        pageSizeOptions: [20, 50, 100],
+        onLimitChange: (next) => {
+          setLimit(next);
+          setOffset(0);
+        },
+      }}
+    />
+  );
+}
+
+/** Backoffice: compacta, orden controlado, filtro por columna, acciones masivas y paginación. */
+export const Backoffice: Story = { render: () => <BackofficeTable /> };
+
+export const BackofficeCava: Story = {
+  render: () => <BackofficeTable />,
+  globals: { theme: "cava" },
+};
+
+export const ConError: Story = {
+  args: {
+    error: { detail: "HTTP 503 · PLATFORM_UNAVAILABLE", onRetry: () => {} },
+    density: "compact",
   },
 };

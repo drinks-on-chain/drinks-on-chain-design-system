@@ -107,6 +107,89 @@ describe("DataTable", () => {
   });
 });
 
+describe("DataTable · Backoffice (0.3)", () => {
+  it("muestra el error con reintento en el cuerpo", async () => {
+    const onRetry = vi.fn();
+    render(
+      <DataTable data={rows} columns={columns} getRowId={(row) => row.id} error={{ onRetry }} />,
+    );
+    expect(screen.getByRole("alert")).toHaveTextContent("No se pudieron cargar los datos");
+    expect(screen.queryByText("Tannat Reserva 24")).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Reintentar" }));
+    expect(onRetry).toHaveBeenCalledTimes(1);
+  });
+
+  it("barra de acciones masivas con la selección y Quitar selección", async () => {
+    const onSuspend = vi.fn();
+    render(
+      <DataTable
+        data={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+        selectable
+        bulkActions={(ids, clear) => (
+          <button
+            type="button"
+            onClick={() => {
+              onSuspend(ids);
+              clear();
+            }}
+          >
+            Suspender
+          </button>
+        )}
+      />,
+    );
+    expect(screen.queryByRole("region", { name: "Acciones masivas" })).not.toBeInTheDocument();
+    const boxes = screen.getAllByRole("checkbox", { name: "Seleccionar fila" });
+    boxes[0]!.focus();
+    await userEvent.keyboard(" ");
+    await userEvent.click(boxes[2]!);
+    const bar = screen.getByRole("region", { name: "Acciones masivas" });
+    expect(bar).toHaveTextContent("2 seleccionadas");
+    await userEvent.click(within(bar).getByRole("button", { name: "Suspender" }));
+    expect(onSuspend).toHaveBeenCalledWith(["a", "c"]);
+    expect(screen.queryByRole("region", { name: "Acciones masivas" })).not.toBeInTheDocument();
+  });
+
+  it("paginación limit/offset conectada", async () => {
+    const onOffsetChange = vi.fn();
+    render(
+      <DataTable
+        data={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={{ total: 48, limit: 20, offset: 0, onOffsetChange }}
+      />,
+    );
+    const nav = screen.getByRole("navigation", { name: "Paginación" });
+    expect(nav).toHaveTextContent("1–20 de 48");
+    await userEvent.click(within(nav).getByRole("button", { name: "Página siguiente" }));
+    expect(onOffsetChange).toHaveBeenCalledWith(20);
+  });
+
+  it("filtro por columna en un panel desde la cabecera", async () => {
+    const filtered: DataTableColumn<Row>[] = [
+      {
+        ...columns[0]!,
+        filter: (
+          <label>
+            Contiene <input />
+          </label>
+        ),
+        filterActive: true,
+      },
+      columns[1]!,
+    ];
+    render(<DataTable data={rows} columns={filtered} getRowId={(row) => row.id} />);
+    const trigger = screen.getByRole("button", { name: "Filtrar por Lote (filtro aplicado)" });
+    await userEvent.click(trigger);
+    expect(await screen.findByRole("textbox", { name: "Contiene" })).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByRole("textbox", { name: "Contiene" })).not.toBeInTheDocument();
+  });
+});
+
 describe("compareValues", () => {
   it("compara texto en español con números naturales", () => {
     expect(compareValues("Lote 2", "Lote 10")).toBeLessThan(0);
