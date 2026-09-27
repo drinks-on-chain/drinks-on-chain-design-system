@@ -45,7 +45,7 @@ Detalle de la Etapa 0.1 de `docs/03-roadmap-frontend.md` («las cinco maquetas d
 - [x] `KpiCard`, `AlertsFeed`, `RoleMatrix` y `OrganizationSwitcher` · 27-09-2026
 - [x] `AdminShell` según la maqueta 03: paleta integrada, selector de organización, menú de usuario, Inter 14 px · 27-09-2026
 - [x] Historias (Oro / Cava, compacta) y pruebas Vitest de cada componente; CHANGELOG 0.3.0 · 27-09-2026
-- [ ] Integración en `dev` con CI verde y pre-release `v0.3.0-rc.1` (tarball verificado)
+- [x] Integración en `dev` con CI verde y pre-release `v0.3.0-rc.1`: Release con `drinks-on-chain-ui-0.3.0-rc.1.tgz` verificado · 27-09-2026
 - [ ] PR `dev → main` y etiqueta `v0.3.0` (coordinación)
 
 ## Siguiente
