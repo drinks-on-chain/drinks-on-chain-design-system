@@ -158,6 +158,13 @@ export { BottomSheet, type BottomSheetProps } from "./components/bottom-sheet";
 export { Popover, PopoverClose, type PopoverProps } from "./components/popover";
 export { Menu, type MenuEntry, type MenuProps } from "./components/menu";
 export { Tooltip, type TooltipProps } from "./components/tooltip";
+export {
+  CommandPalette,
+  type CommandPaletteGroup,
+  type CommandPaletteItem,
+  type CommandPaletteLabels,
+  type CommandPaletteProps,
+} from "./components/command-palette";
 
 // Shells
 export { AppShell, type AppShellProps, type ShellLabels, type ShellUser } from "./shells/app-shell";
