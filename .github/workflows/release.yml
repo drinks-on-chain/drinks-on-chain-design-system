@@ -1,7 +1,8 @@
 name: Release
 
 # Publica el paquete como tarball adjunto a una GitHub Release (sin registro npm).
-# Se dispara al empujar una etiqueta vX.Y.Z creada sobre main.
+# Se dispara al empujar una etiqueta vX.Y.Z creada sobre main, o una pre-release
+# vX.Y.Z-rc.N creada sobre dev (plan/03 §3).
 on:
   push:
     tags: ["v*"]
@@ -45,7 +46,7 @@ jobs:
       - name: Notas desde CHANGELOG.md
         run: |
           awk -v v="$VERSION" '
-            $0 ~ "^## \[?" v "\]?" { found = 1; next }
+            index($0, "## [" v "]") == 1 || index($0, "## " v " ") == 1 { found = 1; next }
             found && /^## / { exit }
             found { print }
           ' CHANGELOG.md > release-notes.md
@@ -55,7 +56,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # Las versiones con guion (X.Y.Z-rc.N) se publican como pre-release, nunca como «Latest».
+          PRERELEASE=""
+          case "$VERSION" in *-*) PRERELEASE="--prerelease" ;; esac
           gh release create "$GITHUB_REF_NAME" "drinks-on-chain-ui-$VERSION.tgz" \
             --title "@drinks-on-chain/ui $VERSION" \
             --notes-file release-notes.md \
-            --verify-tag
+            --verify-tag $PRERELEASE
