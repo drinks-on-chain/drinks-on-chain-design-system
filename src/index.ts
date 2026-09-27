@@ -68,6 +68,19 @@ export {
   type ComboboxProps,
   type ComboboxSingleProps,
 } from "./components/combobox";
+export {
+  DateRangePicker,
+  daysInRange,
+  lastDaysRange,
+  toIsoDate,
+  validateDateRange,
+  type DateRange,
+  type DateRangeError,
+  type DateRangePickerLabels,
+  type DateRangePickerProps,
+  type DateRangePreset,
+  type DateRangeRules,
+} from "./components/date-range-picker";
 
 // Estado y datos
 export { Badge, badgeVariants, type BadgeProps } from "./components/badge";
@@ -88,6 +101,12 @@ export {
   type KeyValueListProps,
 } from "./components/key-value-list";
 export { StatCard, type StatCardProps } from "./components/stat-card";
+export {
+  FilterBar,
+  type ActiveFilter,
+  type FilterBarLabels,
+  type FilterBarProps,
+} from "./components/filter-bar";
 export {
   BulkActionBar,
   type BulkActionBarLabels,
