@@ -89,10 +89,17 @@ export {
 } from "./components/key-value-list";
 export { StatCard, type StatCardProps } from "./components/stat-card";
 export {
+  BulkActionBar,
+  type BulkActionBarLabels,
+  type BulkActionBarProps,
+} from "./components/bulk-action-bar";
+export {
   DataTable,
   compareValues,
   type DataTableColumn,
+  type DataTableError,
   type DataTableLabels,
+  type DataTablePagination,
   type DataTableProps,
   type SortDirection,
   type SortState,
