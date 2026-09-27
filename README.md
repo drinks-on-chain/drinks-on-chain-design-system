@@ -2,7 +2,7 @@
 
 Sistema de diseño de **Drinks on Chain**: tokens, dos temas (Oro Líquido y Cava Reserva), componentes base accesibles y los shells del ERP, el Marketplace, el Backoffice y el POS. React 19 + Tailwind CSS 4, primitivas de [Radix UI](https://www.radix-ui.com/).
 
-Referencia visual y especificación: `docs/05-sistema-de-diseno.md` y `docs/design-system/` en [drinks-on-chain-docsfront](https://github.com/drinks-on-chain/drinks-on-chain-docsfront). Storybook reproduce las cinco maquetas (`Maquetas/*`).
+Referencia visual y especificación: `docs/05-sistema-de-diseno.md` y `docs/design-system/` en [drinks-on-chain-docsfront](https://github.com/drinks-on-chain/drinks-on-chain-docsfront). Storybook reproduce las cinco maquetas (`Maquetas/*`) y está publicado en <https://drinks-on-chain-storybook.vercel.app>.
 
 ## Instalación
 
@@ -11,7 +11,7 @@ El paquete no se publica en un registro: cada versión es un tarball adjunto a u
 ```jsonc
 // package.json
 "dependencies": {
-  "@drinks-on-chain/ui": "https://github.com/drinks-on-chain/drinks-on-chain-design-system/releases/download/v0.1.0/drinks-on-chain-ui-0.1.0.tgz"
+  "@drinks-on-chain/ui": "https://github.com/drinks-on-chain/drinks-on-chain-design-system/releases/download/v0.2.0/drinks-on-chain-ui-0.2.0.tgz"
 }
 ```
 
@@ -177,6 +177,8 @@ Las fuentes se regeneran con `node scripts/sync-fonts.mjs` (copia desde `@fontso
    ```
 4. El workflow `release.yml` comprueba que la etiqueta coincide con `package.json`, pasa lint, tipos, pruebas y build, ejecuta `pnpm pack` y crea la GitHub Release con `drinks-on-chain-ui-X.Y.Z.tgz` y las notas del CHANGELOG.
 5. En cada app, actualiza la URL del tarball con un PR.
+
+**Pre-release** (plan/03 §3): con `version` = `X.Y.Z-rc.N` en `dev`, etiqueta el commit de `dev` con `vX.Y.Z-rc.N`. El mismo workflow la publica marcada como pre-release (nunca «Latest»), con las notas de la sección `## [X.Y.Z-rc.N]` del CHANGELOG si existe.
 
 ## Licencia
 
