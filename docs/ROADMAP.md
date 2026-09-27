@@ -23,8 +23,16 @@ Detalle de la Etapa 0.1 de `docs/03-roadmap-frontend.md` («las cinco maquetas d
 - [x] CI (`ci.yml`) y publicación por GitHub Release (`release.yml`) · 25-09-2026
 - [x] Verificado: el tarball instalado en una app Next.js 16 + Tailwind 4 genera las clases y sirve las fuentes · 25-09-2026
 - [x] Documentación: README, CHANGELOG, CLAUDE.md · 25-09-2026
-- [ ] PR `dev → main` y etiqueta `v0.1.0` (la hace el equipo tras revisar)
-- [ ] Proyecto de Vercel para Storybook (`vercel.json` listo; lo crea el equipo)
+- [x] PR `dev → main` y etiqueta `v0.1.0` (Release con tarball; luego 0.1.1 y 0.1.2) · 25-09-2026
+- [x] Proyecto de Vercel para Storybook: <https://drinks-on-chain-storybook.vercel.app> · 27-09-2026
+
+## 0.2.0 · oro tostado, contraste AA y componentes editoriales de acceso
+
+- [x] Tokens de texto de estado, oro tostado en el tema Oro, `headingLevel` en estados vacíos y de error, foco devuelto en overlays controlados · 25-09-2026
+- [x] `BrandSeal`, `VineOrnament`, `GlassBottleOrnament`, `VineyardScene` para las pantallas de acceso · 25-09-2026
+- [x] PR #4 `dev → main` y etiqueta `v0.2.0`: Release con `drinks-on-chain-ui-0.2.0.tgz` · 27-09-2026
+- [x] `release.yml` publica las etiquetas con guion (`vX.Y.Z-rc.N`, sobre `dev`) como pre-release · 27-09-2026
+- [ ] Plantilla y ERP a `ui` 0.2.x (O0-PK-1; pistas de la plantilla y del ERP)
 
 ## Siguiente (0.2 y posteriores)
 
