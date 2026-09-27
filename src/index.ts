@@ -110,6 +110,14 @@ export {
   type KeyValueListProps,
 } from "./components/key-value-list";
 export { StatCard, type StatCardProps } from "./components/stat-card";
+export { KpiCard, type KpiBreakdownItem, type KpiCardProps } from "./components/kpi-card";
+export {
+  AlertsFeed,
+  type AlertLevel,
+  type AlertsFeedItem,
+  type AlertsFeedLabels,
+  type AlertsFeedProps,
+} from "./components/alerts-feed";
 export {
   StatusBadge,
   getStatusBadge,
@@ -119,6 +127,14 @@ export {
   type StatusKind,
   type StatusOf,
 } from "./components/status-badge";
+export {
+  RoleMatrix,
+  type PermissionLevel,
+  type RoleMatrixCapability,
+  type RoleMatrixLabels,
+  type RoleMatrixProps,
+  type RoleMatrixRole,
+} from "./components/role-matrix";
 export {
   FilterBar,
   type ActiveFilter,
