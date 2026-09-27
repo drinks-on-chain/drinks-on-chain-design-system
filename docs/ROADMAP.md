@@ -47,7 +47,7 @@ Detalle de la Etapa 0.1 de `docs/03-roadmap-frontend.md` («las cinco maquetas d
 - [x] Historias (Oro / Cava, compacta) y pruebas Vitest de cada componente; CHANGELOG 0.3.0 · 27-09-2026
 - [x] Integración en `dev` con CI verde y pre-release `v0.3.0-rc.1`: Release con `drinks-on-chain-ui-0.3.0-rc.1.tgz` verificado · 27-09-2026
 - [x] Accesibilidad (O1-PK-fix): `RoleMatrix` con contenedor desplazable enfocable al desbordar; `CommandPalette`, `ConfirmDialog`, `ReasonDialog` y overlays no roban el foco al diálogo que abre su acción; pruebas y historias · 27-09-2026
-- [ ] Pre-release `v0.3.0-rc.2` con el tarball verificado
+- [x] Pre-release `v0.3.0-rc.2` sobre `dev` con CI verde: Release con `drinks-on-chain-ui-0.3.0-rc.2.tgz` verificado · 27-09-2026
 - [ ] PR `dev → main` y etiqueta `v0.3.0` (coordinación)
 
 ## Siguiente
