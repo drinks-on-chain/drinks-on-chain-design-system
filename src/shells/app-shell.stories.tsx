@@ -1,10 +1,28 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Plus } from "lucide-react";
+import { LogOut, Plus, User } from "lucide-react";
+import { action } from "storybook/actions";
 import { Badge } from "../components/badge";
 import { Button } from "../components/button";
 import { EmptyState } from "../components/empty-state";
+import type { LinkComponentProps } from "../lib/link";
 import { erpNavigation } from "../stories/navigation";
 import { AppShell } from "./app-shell";
+
+const navigate = action("navegar");
+
+/** Como `next/link`: navega en el cliente sin recargar (aquí lo registra en Actions). */
+function RouterLink({ onClick, ...props }: LinkComponentProps) {
+  return (
+    <a
+      {...props}
+      onClick={(event) => {
+        onClick?.(event);
+        event.preventDefault();
+        navigate(props.href);
+      }}
+    />
+  );
+}
 
 const meta = {
   title: "Shells/AppShell",
@@ -14,7 +32,11 @@ const meta = {
     navigation: erpNavigation,
     currentPath: "/vendimia/pesaje",
     user: { name: "Lucía Rojas", role: "Enóloga · Cinti Viejo" },
-    userMenu: [{ label: "Mi perfil" }, { type: "separator" }, { label: "Cerrar sesión" }],
+    userMenu: [
+      { label: "Mi perfil", icon: <User />, href: "/perfil" },
+      { type: "separator" },
+      { label: "Cerrar sesión", icon: <LogOut />, onSelect: action("cerrar sesión") },
+    ],
     breadcrumbs: [
       { label: "Cinti Viejo", href: "/" },
       { label: "Vendimia", href: "/vendimia" },
@@ -45,6 +67,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Escritorio: Story = {};
+
+/** Con `linkComponent` (en Next, `Link` de `next/link`): marca, navegación, migas y menú de usuario. */
+export const EnlacesDelRouter: Story = { args: { linkComponent: RouterLink, brandHref: "/" } };
 
 export const Colapsada: Story = { args: { defaultCollapsed: true } };
 
