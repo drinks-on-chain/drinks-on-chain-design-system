@@ -2,6 +2,15 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); el proyecto sigue [versionado semántico](https://semver.org/lang/es/).
 
+## [0.3.1] · 2026-09-27
+
+Parche sin cambios de API.
+
+### Corregido
+
+- `AppShell` y `AdminShell`: las opciones con `href` del menú de usuario usan el `linkComponent` del shell (en Next, `Link` de `next/link`); antes eran `<a>` y recargaban la página entera. En el cajón móvil, elegir una de esas opciones cierra el cajón, como los enlaces de la navegación.
+- Revisados los demás enlaces de los shells: la marca, la navegación y las migas de `AppShell` / `AdminShell` y la cabecera y las pestañas de `StoreShell` ya usaban `linkComponent`; `KioskShell`, `PageShell`, `AuthLayout` y `CommandPalette` no renderizan enlaces propios.
+
 ## [0.3.0] · 2026-09-27
 
 Componentes del Backoffice para la Ola 1 (O1-PK-1): alta de bodegas, equipos, configuración, bitácora y segundo factor. Sin rupturas respecto a 0.2.0.
