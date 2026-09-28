@@ -50,6 +50,12 @@ Detalle de la Etapa 0.1 de `docs/03-roadmap-frontend.md` («las cinco maquetas d
 - [x] Pre-release `v0.3.0-rc.2` sobre `dev` con CI verde: Release con `drinks-on-chain-ui-0.3.0-rc.2.tgz` verificado · 27-09-2026
 - [ ] PR `dev → main` y etiqueta `v0.3.0` (coordinación)
 
+## 0.3.1 · parche de enlaces (Ola 1)
+
+- [x] Menú de usuario de `AppShell` / `AdminShell` con el `linkComponent` del shell (sin recarga en Next); el cajón móvil se cierra al elegir un enlace; revisados los demás shells; prueba y historia `EnlacesDelRouter` · 27-09-2026
+- [x] Versión 0.3.1 y CHANGELOG, integrada en `dev` con CI verde · 27-09-2026
+- [ ] Etiqueta `v0.3.1` (coordinación, al cerrar la Ola 1)
+
 ## Siguiente
 
 - [ ] CameraScanner compartido por Marketplace y POS
