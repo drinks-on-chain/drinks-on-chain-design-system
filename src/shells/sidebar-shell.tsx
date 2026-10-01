@@ -53,7 +53,7 @@ export interface SidebarShellProps {
   /** Href del logotipo. */
   brandHref?: string;
   user?: ShellUser;
-  /** Opciones del menú de usuario (perfil, cerrar sesión). */
+  /** Opciones del menú de usuario (perfil, cerrar sesión); las que tienen `href` usan `linkComponent`. */
   userMenu?: MenuEntry[];
   /** Migas de pan de la barra superior. */
   breadcrumbs?: BreadcrumbItem[];
@@ -194,6 +194,8 @@ export function SidebarShell({
             <UserBlock
               user={user}
               userMenu={userMenu}
+              linkComponent={linkComponent}
+              onNavigate={mode === "mobile" ? () => setMobileOpen(false) : undefined}
               label={labels.userMenu}
               hideText={hideText}
               center={centerWhenCollapsed}
@@ -297,12 +299,17 @@ export function SidebarShell({
 function UserBlock({
   user,
   userMenu,
+  linkComponent,
+  onNavigate,
   label,
   hideText,
   center,
 }: {
   user: ShellUser;
   userMenu?: MenuEntry[];
+  linkComponent?: LinkComponent;
+  /** En el cajón móvil: lo cierra al elegir un enlace (la navegación del cliente no recarga). */
+  onNavigate?: () => void;
   label: string;
   hideText: string;
   center: string;
@@ -321,11 +328,25 @@ function UserBlock({
     center,
   );
   if (!userMenu?.length) return <div className={classes}>{content}</div>;
+  const items = onNavigate
+    ? userMenu.map((entry): MenuEntry =>
+        entry.type !== "separator" && entry.type !== "label" && entry.href
+          ? {
+              ...entry,
+              onSelect: () => {
+                entry.onSelect?.();
+                onNavigate();
+              },
+            }
+          : entry,
+      )
+    : userMenu;
   return (
     <Menu
       side="top"
       align="start"
-      items={userMenu}
+      items={items}
+      linkComponent={linkComponent}
       trigger={
         <button
           type="button"
