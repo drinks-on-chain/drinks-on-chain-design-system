@@ -32,6 +32,7 @@ export { ThemeProvider, useTheme, type ThemeProviderProps } from "./theme/theme-
 export { Button, buttonVariants, type ButtonProps } from "./components/button";
 export { IconButton, iconButtonVariants, type IconButtonProps } from "./components/icon-button";
 export { TextLink, type TextLinkProps } from "./components/text-link";
+export { ExplorerLink, isHttpUrl, type ExplorerLinkProps } from "./components/explorer-link";
 
 // Formularios
 export { Field, useFieldContext, useFieldControl, type FieldProps } from "./components/field";
@@ -127,6 +128,24 @@ export {
   type StatusKind,
   type StatusOf,
 } from "./components/status-badge";
+export {
+  TxStatusBadge,
+  getTxStatus,
+  isTxInProgress,
+  type TxStatus,
+  type TxStatusBadgeLabels,
+  type TxStatusBadgeProps,
+  type TxStatusDefinition,
+  type TxStatusError,
+} from "./components/tx-status-badge";
+export {
+  ChainAddress,
+  getChainAddressKind,
+  truncateMiddle,
+  type ChainAddressKind,
+  type ChainAddressLabels,
+  type ChainAddressProps,
+} from "./components/chain-address";
 export {
   RoleMatrix,
   type PermissionLevel,

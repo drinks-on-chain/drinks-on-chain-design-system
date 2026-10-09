@@ -1,8 +1,9 @@
 import type { Tone } from "../lib/types";
 import { Badge, type BadgeProps } from "./badge";
 
-// Estados del contrato de la Ola 1 (plan/contratos/o1-backoffice-y-bodegas.md §2–§5) mapeados a
-// los tonos de estado. Los badges suaves usan los tokens `*-text` sobre `*-soft`: contraste AA
+// Estados del contrato de la Ola 1 (plan/contratos/o1-backoffice-y-bodegas.md §2–§5) y de la
+// solicitud de tokenización de la Ola 3 (plan/contratos/o3-tokenizacion.md §5.1) mapeados a los
+// tonos de estado. Los badges suaves usan los tokens `*-text` sobre `*-soft`: contraste AA
 // en los dos temas (0.2.0).
 
 export interface StatusDefinition {
@@ -47,6 +48,15 @@ export const statusBadgeMap = {
     WARNING: { label: "Aviso", tone: "warning" },
     CRITICAL: { label: "Crítica", tone: "danger" },
   },
+  /** `TokenizationRequestStatus` · solicitudes de tokenización (Ola 3, §5.1). */
+  tokenizationRequest: {
+    SUBMITTED: { label: "Enviada", tone: "info" },
+    IN_REVIEW: { label: "En revisión", tone: "warning" },
+    CHANGES_REQUESTED: { label: "Cambios pedidos", tone: "warning" },
+    APPROVED: { label: "Aprobada", tone: "success" },
+    REJECTED: { label: "Rechazada", tone: "danger" },
+    WITHDRAWN: { label: "Retirada", tone: "neutral" },
+  },
 } as const satisfies Record<string, Record<string, StatusDefinition>>;
 
 export type StatusKind = keyof typeof statusBadgeMap;
@@ -74,7 +84,10 @@ export interface StatusBadgeProps<K extends StatusKind = StatusKind> extends Omi
   label?: string;
 }
 
-/** Badge de estado de solicitudes, bodegas, invitaciones, miembros y alertas del contrato. */
+/**
+ * Badge de estado de solicitudes de alta, bodegas, invitaciones, miembros, alertas y solicitudes
+ * de tokenización (`kind="tokenizationRequest"`, el `RequestStatusBadge` del contrato de la Ola 3).
+ */
 export function StatusBadge<K extends StatusKind>({
   kind,
   status,
