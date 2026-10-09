@@ -18,6 +18,7 @@ const titles: Record<StatusKind, string> = {
   invitation: "Invitaciones",
   member: "Miembros",
   alert: "Alertas",
+  tokenizationRequest: "Solicitudes de tokenización",
 };
 
 function AllStates() {
@@ -39,10 +40,21 @@ function AllStates() {
   );
 }
 
-/** Todos los estados del contrato de la Ola 1, con contraste AA en los dos temas. */
+/** Todos los estados de los contratos (Olas 1 y 3), con contraste AA en los dos temas. */
 export const Contrato: Story = { render: () => <AllStates /> };
 
 export const ContratoCava: Story = { render: () => <AllStates />, globals: { theme: "cava" } };
+
+/** `RequestStatusBadge` del contrato de la Ola 3: la solicitud de tokenización de un lote. */
+export const SolicitudDeTokenizacion: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      {Object.keys(statusBadgeMap.tokenizationRequest).map((status) => (
+        <StatusBadge key={status} kind="tokenizationRequest" status={status} />
+      ))}
+    </div>
+  ),
+};
 
 export const EtiquetaPropia: Story = {
   args: { kind: "member", status: "BLOCKED", label: "Bloqueado por la plataforma" },
