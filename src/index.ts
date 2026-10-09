@@ -129,6 +129,16 @@ export {
   type StatusOf,
 } from "./components/status-badge";
 export {
+  TxStatusBadge,
+  getTxStatus,
+  isTxInProgress,
+  type TxStatus,
+  type TxStatusBadgeLabels,
+  type TxStatusBadgeProps,
+  type TxStatusDefinition,
+  type TxStatusError,
+} from "./components/tx-status-badge";
+export {
   RoleMatrix,
   type PermissionLevel,
   type RoleMatrixCapability,
