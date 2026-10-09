@@ -32,6 +32,7 @@ export { ThemeProvider, useTheme, type ThemeProviderProps } from "./theme/theme-
 export { Button, buttonVariants, type ButtonProps } from "./components/button";
 export { IconButton, iconButtonVariants, type IconButtonProps } from "./components/icon-button";
 export { TextLink, type TextLinkProps } from "./components/text-link";
+export { ExplorerLink, isHttpUrl, type ExplorerLinkProps } from "./components/explorer-link";
 
 // Formularios
 export { Field, useFieldContext, useFieldControl, type FieldProps } from "./components/field";
