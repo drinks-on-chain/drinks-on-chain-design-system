@@ -139,6 +139,14 @@ export {
   type TxStatusError,
 } from "./components/tx-status-badge";
 export {
+  ChainAddress,
+  getChainAddressKind,
+  truncateMiddle,
+  type ChainAddressKind,
+  type ChainAddressLabels,
+  type ChainAddressProps,
+} from "./components/chain-address";
+export {
   RoleMatrix,
   type PermissionLevel,
   type RoleMatrixCapability,
