@@ -2,6 +2,22 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); el proyecto sigue [versionado semántico](https://semver.org/lang/es/).
 
+## [0.4.0] · sin publicar
+
+Componentes de la cadena para la Ola 3 (O3-PK-1; contrato `o3-tokenizacion` §0, §2.3, §2.4 y §5.1). Sin rupturas respecto a 0.3.1. Pre-release: `v0.4.0-rc.1` (2026-10-08).
+
+### Añadido
+
+- `TxStatusBadge`: estado de una transacción en la red con las etiquetas del contrato (`PENDING` «En cola», `BUILDING` «Preparando», `SUBMITTED` «Enviada a la red», `CONFIRMED` «Confirmada», `RETRYING` «Reintentando», `FAILED` «Fallida»). El estado se lee por icono y texto además del tono; el indicador de «en curso» anima solo `transform` u `opacity` y se detiene con `prefers-reduced-motion`. Con `explorerUrl` añade «Ver en el explorador»; `lastError` (`{ code, message, retryable }`) se muestra como texto visible con su código, no en un tooltip; `attempts` aparece a partir del segundo intento. Los cambios de estado se anuncian una vez en una región `aria-live="polite"` (el montaje no se anuncia; `announce={false}` la quita en listas largas). Declara sus propios tipos (`TxStatus`, `TxStatusError`), estructuralmente compatibles con `ChainTxRef`; un estado desconocido se muestra en neutro. Utilidades `getTxStatus` e `isTxInProgress` (para el `refetchInterval` de las apps).
+- `ChainAddress`: dirección StrKey de 56 caracteres (`G…` / `C…`) o hash de 64 en hex, en monoespaciada y truncada por el medio (`GDN3CA…4SB6`; `head`, `tail`, `truncate`). La dirección completa la leen los lectores de pantalla y es la que llega al portapapeles, con el botón (patrón de `CopyField`: `useCopy` y aviso «Copiado» con `aria-live`) y al seleccionar el texto y copiar. `explorerUrl` opcional (enlace de icono con nombre accesible). Utilidades `truncateMiddle` y `getChainAddressKind`.
+- `ExplorerLink`: enlace externo al explorador (`target="_blank"`, `rel="noopener noreferrer"`, aviso «se abre en una pestaña nueva» para lectores de pantalla, `iconOnly`). Recibe la URL completa que devuelve el backend (las apps nunca escriben el host) y solo enlaza `http(s)` (`isHttpUrl`).
+- `StatusBadge`: tipo `tokenizationRequest` con los estados de la solicitud de tokenización (`SUBMITTED` «Enviada», `IN_REVIEW` «En revisión», `CHANGES_REQUESTED` «Cambios pedidos», `APPROVED` «Aprobada», `REJECTED` «Rechazada», `WITHDRAWN` «Retirada»). Es el `RequestStatusBadge` del contrato: `<StatusBadge kind="tokenizationRequest" status={…} />`.
+- Pruebas de accesibilidad con `axe-core` en Vitest (`src/test/axe.ts`: `expectNoAxeViolations`) para los componentes nuevos; el contraste lo sigue comprobando el addon a11y de Storybook.
+
+### Conocido
+
+- `Select` abierto: axe en el navegador da `aria-hidden-focus`. Mientras está abierto, el Select de Radix marca el resto de la página con `aria-hidden` (y sus guardas de foco llevan `tabindex="0"`); no hay prop para desactivarlo y arreglarlo exige sustituir la primitiva o parchear su DOM. Queda sin tocar (no es un arreglo acotado).
+
 ## [0.3.1] · 2026-09-27
 
 Parche sin cambios de API.

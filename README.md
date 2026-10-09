@@ -68,9 +68,9 @@ import { Button, Field, Input, DataTable, Modal, toast, cn } from "@drinks-on-ch
 ```
 
 - **Utilidades**: `cn()` (clsx + tailwind-merge configurado con la escala propia), `focusRing`, `isNavItemActive`, `useHotkey()` / `formatHotkey()` / `matchesHotkey()` (atajos: `"mod+k"` es ⌘K o Ctrl+K), `useCopy()` / `copyText()`, `normalizeText()` / `matchesQuery()` (búsqueda sin tildes). En Server Components importa `cn` desde `@drinks-on-chain/ui/utils`, que no pasa por ningún módulo cliente.
-- **Acciones**: `Button` (primary / secondary / tertiary / destructive / success; sm, md, lg, xl 56 px, kiosk 72 px; `loading`, `iconStart`, `iconEnd`, `asChild`), `IconButton` (`label` obligatorio), `TextLink`.
+- **Acciones**: `Button` (primary / secondary / tertiary / destructive / success; sm, md, lg, xl 56 px, kiosk 72 px; `loading`, `iconStart`, `iconEnd`, `asChild`), `IconButton` (`label` obligatorio), `TextLink`, `ExplorerLink` (enlace externo al explorador de la red; `iconOnly`).
 - **Formularios**: `Field` (etiqueta, `help`, `error`, `required`; conecta `id`, `aria-describedby`, `aria-invalid` y `required` con el control), `Input` (`prefix`, `suffix`, `numeric`, `giant`), `Textarea`, `Select` (+ `SelectItem`, `SelectGroup`, `SelectSeparator`), `Checkbox`, `RadioGroup` (+ `RadioGroupItem`, variante `card`), `Switch`, `FormSection`, `Combobox` (búsqueda con teclado, `loadOptions` asíncrono, `multiple`), `DateRangePicker` (dos fechas ISO con validación y preajustes), `OtpInput` (TOTP de 6 dígitos, pegar, `autocomplete="one-time-code"`), `CopyField`. Para controles propios: `useFieldControl()`.
-- **Estado y datos**: `Badge` (tonos neutral / accent / success / danger / warning / info; soft / strong; punto), `Tag`, `Pill` + `PillGroup`, `Avatar`, `Card` + `CardHeader`, `Divider`, `KeyValueList`, `StatCard`, `KpiCard`, `AlertsFeed`, `StatusBadge` (estados del contrato: solicitudes, bodegas, invitaciones, miembros, alertas), `RoleMatrix`, `FilterBar`, `BulkActionBar`, `SecretReveal`, `DataTable`, `Timeline`, `Countdown`, `QRCode`, `Wordmark`.
+- **Estado y datos**: `Badge` (tonos neutral / accent / success / danger / warning / info; soft / strong; punto), `Tag`, `Pill` + `PillGroup`, `Avatar`, `Card` + `CardHeader`, `Divider`, `KeyValueList`, `StatCard`, `KpiCard`, `AlertsFeed`, `StatusBadge` (estados del contrato: solicitudes, bodegas, invitaciones, miembros, alertas y solicitudes de tokenización con `kind="tokenizationRequest"`), `TxStatusBadge` (estado de una transacción en la red), `ChainAddress` (dirección o hash truncado con copiar y enlace al explorador), `RoleMatrix`, `FilterBar`, `BulkActionBar`, `SecretReveal`, `DataTable`, `Timeline`, `Countdown`, `QRCode`, `Wordmark`.
 - **Feedback**: `Alert`, `Toast` + `Toaster` + `toast()`, `Skeleton` + `SkeletonText`, `Spinner`, `Progress`, `EmptyState`, `ErrorState` (`onRetry`).
 - **Navegación**: `Tabs` (+ `TabsList`, `TabsTrigger`, `TabsContent`), `Breadcrumbs`, `Pagination` (`total`, `limit`, `offset`, `onOffsetChange`), `Stepper`, `OrganizationSwitcher`.
 - **Overlays**: `Modal` (+ `ModalClose`), `SlideOver`, `BottomSheet`, `Popover` (+ `PopoverClose`), `Menu`, `Tooltip`, `CommandPalette` (⌘K / Ctrl+K), `ConfirmDialog` (confirmación escrita opcional), `ReasonDialog` (motivo obligatorio de 3–500 caracteres).
@@ -83,6 +83,29 @@ Convenciones:
 - Los componentes interactivos llevan `"use client"` en su propio módulo; los estáticos (`Badge`, `Card`, `StatCard`, `Breadcrumbs`, `AuthLayout`, `PageShell`…) funcionan en Server Components.
 - `DataTable<T>` tipa sus columnas (`DataTableColumn<T>`: `accessor`, `cell`, `sortable`, `numeric`, `hideBelow`…); ordena en cliente o, con `manualSorting`, delega el orden en la API. Para el Backoffice: `density="compact"`, `selectable` + `bulkActions`, `column.filter` (panel en la cabecera), `pagination` (`limit` / `offset`, tamaño de página) y `error` con reintento. La cabecera pegajosa se pega bajo la barra de los shells (`--doc-sticky-offset`) o dentro del contenedor si se pasa `maxHeight`.
 - `Toaster` se monta una vez en la raíz; `toast({ title, description, tone, action })` desde cualquier parte.
+
+### Cadena (Ola 3)
+
+```tsx
+import { ChainAddress, StatusBadge, TxStatusBadge, isTxInProgress } from "@drinks-on-chain/ui";
+
+// `tx` es un `ChainTxRef` de la API; `explorerUrl` lo construye siempre el backend.
+<TxStatusBadge
+  status={tx.status}
+  explorerUrl={tx.explorerUrl}
+  lastError={tx.lastError}
+  attempts={tx.attempts}
+/>
+<ChainAddress value={account.address} label="Cuenta de la bodega" explorerUrl={account.explorerUrl} />
+<StatusBadge kind="tokenizationRequest" status={request.status} />
+
+// Refresco por consulta mientras la transacción sigue su curso (contrato O3 §2.4):
+refetchInterval: (query) => (query.state.data && isTxInProgress(query.state.data.status) ? 5000 : false)
+```
+
+- `TxStatusBadge` no importa tipos de `@drinks-on-chain/mocks`: `TxStatus` y `TxStatusError` son estructuralmente compatibles con `ChainTxRef`. Anuncia los cambios de estado con `aria-live="polite"`; en una tabla con muchas transacciones pasa `announce={false}` y anuncia el resumen desde la pantalla.
+- `ChainAddress` trunca por el medio (`GDN3CA…4SB6`) y copia siempre la dirección completa.
+- Las apps nunca escriben el host del explorador: `explorerUrl` llega del backend y `ExplorerLink` solo enlaza URLs `http(s)`.
 
 ### Enlaces y shells en Next.js
 

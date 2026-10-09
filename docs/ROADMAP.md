@@ -56,6 +56,16 @@ Detalle de la Etapa 0.1 de `docs/03-roadmap-frontend.md` («las cinco maquetas d
 - [x] Versión 0.3.1 y CHANGELOG, integrada en `dev` con CI verde · 27-09-2026
 - [ ] Etiqueta `v0.3.1` (coordinación, al cerrar la Ola 1)
 
+## 0.4.0 · componentes de la cadena (Ola 3, O3-PK-1)
+
+- [x] `TxStatusBadge` (seis estados de `ChainTxStatus` con icono, texto y tono; enlace al explorador, error legible, intentos, cambios anunciados con `aria-live`) · 08-10-2026
+- [x] `ChainAddress` (StrKey o hash truncado por el medio, copia completa, enlace al explorador) y `ExplorerLink` · 08-10-2026
+- [x] `StatusBadge` con `kind="tokenizationRequest"` (el `RequestStatusBadge` del contrato) · 08-10-2026
+- [x] Pruebas de accesibilidad con `axe-core` en Vitest para los componentes nuevos; historias de todos los estados en los dos temas · 08-10-2026
+- [x] Versión 0.4.0, CHANGELOG y README; integrada en `dev` con CI verde y pre-release `v0.4.0-rc.1` · 08-10-2026
+- [ ] `Select` abierto: violación `aria-hidden-focus` de axe (el Select de Radix oculta el resto de la página con `aria-hidden`); pide sustituir la primitiva, no es un arreglo acotado
+- [ ] PR `dev → main` y etiqueta `v0.4.0` (coordinación, al cerrar la Ola 3)
+
 ## Siguiente
 
 - [ ] CameraScanner compartido por Marketplace y POS
